@@ -1,9 +1,9 @@
 #ifndef STLREADER_H
 #define STLREADER_H
-//test rotation and volume 
-//work on fixing volume
-//todo  reset readerer
-//save output change stats to use get surface 
+//surface area 
+//raft area 
+//more some functions to utils 
+//save output 
 //translation and scaling 
 //check surface normal
 
@@ -20,7 +20,7 @@ public:
 	void print(void);
 };
 
-typedef float sur[12];// 3 *4  //norm then 3 vertexes
+typedef float sur[12];//   //norm then 3 vertexes
 
 
 
@@ -29,9 +29,10 @@ typedef float sur[12];// 3 *4  //norm then 3 vertexes
 //};
 
 struct Objstats{
-//	float surfaceArea;
-	float volume;
-//	float dim[3];
+	float surfaceArea; //mm^2
+	float volume; // mm^3
+	float raftArea;// mm^2
+	float layers; // # layers  
 };
 
 struct StlTransform{

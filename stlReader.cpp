@@ -47,6 +47,12 @@ void matrixmult (float * A , float * B, float * C, int n, int p, int m ){
     }
   }
 }
+void cross(float * A, float * B, float * C){
+	//assume 3x3
+	C[0] = A[ 1]* B[ 2]-A[ 2]* B[ 1];
+ 	C[1] = A[ 2]* B[ 0]-A[ 0]* B[ 2];
+  	C[2] = A[ 0]* B[ 1]-A[ 1]* B[ 0];
+}
 
 int StlReader :: getSurface(sur out){
 	sur first;
@@ -189,19 +195,23 @@ void StlStats:: print(void){
 
 int StlReader :: getFeatures(Objstats * stats){
 	Objstats mystats;
-	float cross[3];
-	float total = 0;
+	float crossProd[3];
+	float A[3];
+  	float B[3];
+	float VolTotal = 0;
+	float areaTotal = 0.0;
 	float partial = 0;
 	sur cur;
 	for(uint32_t i = 0; i < this->stats.numbsurface; i++){
 		getSurface(cur);
 		
-		//volume = abs (a dot (b cross c)) /6 x sign 
-		cross[0] = cur[2 *3 + 1]*cur[3*3 + 2]-cur[2*3 + 2]*cur[3*3 + 1];
- 		cross[1] = cur[2*3 + 2]*cur[3*3 + 0]-cur[2*3 + 0]*cur[3*3 + 2];
-  		cross[2] = cur[2*3 + 0]*cur[3*3 + 1]-cur[2*3 + 1]*cur[3*3 + 0];
+	//volume = abs (a dot (b cross c)) /6 x sign 
+		//cross[0] = cur[2 *3 + 1]*cur[3*3 + 2]-cur[2*3 + 2]*cur[3*3 + 1];
+ 		//cross[1] = cur[2*3 + 2]*cur[3*3 + 0]-cur[2*3 + 0]*cur[3*3 + 2];
+  		//cross[2] = cur[2*3 + 0]*cur[3*3 + 1]-cur[2*3 + 1]*cur[3*3 + 0];
+  		cross(&cur[2*3], &cur[3*3], crossProd);
 	
-  		partial = cross[0] * cur[1*3 + 0] + cross[1] * cur[1*3 + 1] + cross[2] * cur[1*3 + 2];
+  		partial = crossProd[0] * cur[1*3 + 0] + crossProd[1] * cur[1*3 + 1] + crossProd[2] * cur[1*3 + 2];
 
   		partial = abs(partial) / 6.0;
 
@@ -213,12 +223,32 @@ int StlReader :: getFeatures(Objstats * stats){
   		if(normsum < 0) {
   			//negtive faceing toward subtract
   			
-  			total -= partial;
-  		}else total += partial;
+  			VolTotal -= partial;
+  		}else VolTotal += partial;
+
+  //surface area 
+  		//get two border vectors 
+  		for(int i =0 ; i < 3 ; i++){
+  			A[i] = cur[2*3 + i] - cur[1*3 + i];
+  			B[i] = cur[3*3 + i] - cur[1*3 + i];
+  		}
+  		//get cross product 
+  		cross(A, B , crossProd); 
+  		//square componants add each take sqrt 
+  		for(int i = 0 ; i < 3; i++)
+  			crossProd[i] = abs(crossProd[i] * crossProd[i]);
+  		partial = 0;
+  		for(int i = 0 ; i < 3; i++)
+  			partial += sqrt(crossProd[i]);
+  		//devide by 2 
+  			areaTotal += partial/2;
+
 
 	}
-	mystats.volume = total;
-	std::cout << "total volume  was:"<< total  << std::endl;
+	mystats.surfaceArea = areaTotal;
+	std::cout << "total area  was:"<< areaTotal  << std::endl;
+	mystats.volume = VolTotal;
+	std::cout << "total volume  was:"<< VolTotal  << std::endl;
 	* stats = mystats;
 	return 0;
 }
@@ -243,10 +273,8 @@ void setsquare( float rad, int a, int b, float * mat, bool flipSign){
 
 
 int StlReader :: setRotation (float spin[3]){
-
 	//calculate the rotation matrix 
 	// assume inputs in radians 
-
 	// start with identity 
 	float tempR [9];
 
@@ -277,8 +305,6 @@ int StlReader :: setRotation (float spin[3]){
 
 	matrixmult (Rx , Ry, tempR, 3, 3, 3 );
 	matrixmult (tempR , Rz, this->transform.R, 3, 3, 3 );
- //for( int i = 0 ; i < 9; i++)
- 	//this->transform.R[i] = Rx[i];
 	this->transform.rotate = true;
 	return 0;
 
