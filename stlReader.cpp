@@ -37,7 +37,7 @@ void matrixmult (float * A , float * B, float * C, int n, int p, int m ){
   }
 }
 
-int StlReader :: getsurface(sur out){
+int StlReader :: getSurface(sur out){
 	sur first;
 	char waste[2];
 	//float in[4][3];
@@ -57,6 +57,7 @@ int StlReader :: getsurface(sur out){
 
 
 	if(this->transform.rotate){
+		std::cout << "I'm rotating" << std::endl;
 		source.read((char *) first, sizeof(float) *12);
 		source.read(waste, 2);
 		for(int vert= 0; vert< 4; vert++)
@@ -102,21 +103,21 @@ int StlReader :: openFile (std::string newname, bool overwrite){
 			if(source.fail())std::cout << "3 in failing failing" << std::endl;
 		uint32_t temp = 0;
 		source.read((char *) &temp, sizeof(temp));
-		std::cout << "got value" <<temp << std::endl;
+		//std::cout << "got value" <<temp << std::endl;
 		stats.numbsurface = (uint32_t) temp; 
 	}
 	open = true;
 	sur in;
-	this->getsurface(in);
+	this->getSurface(in);
 	
-	std::cout << "read done numbsurface "<< stats.numbsurface  << std::endl;
+	//std::cout << "read done numbsurface "<< stats.numbsurface  << std::endl;
 	return 0;
 }
 
 
 
 
-int StlReader :: getstats (void){
+int StlReader :: getStats (void){
 	//read through surfaces 
 	float max = std::numeric_limits<float>::max()/10 ;
 	for(int i =0; i < 3; i++){
@@ -132,7 +133,7 @@ int StlReader :: getstats (void){
 		float cur[2]; // min max
 		for( int surface = 0; surface < (int) this->stats.numbsurface; surface++){
 		
-			getsurface(in);	
+			getSurface(in);	
 			//printSur(in); 
 			for(int i =0 ; i < 3 ; i++)
 				this->stats.avenorm[i] += in[i];
@@ -175,14 +176,14 @@ void StlStats:: print(void){
 }
 
 
-Objstats StlReader :: getfeatures(void){
+int StlReader :: getFeatures(Objstats * stats){
 	Objstats mystats;
 	float cross[3];
 	float total = 0;
 	float partial = 0;
 	sur cur;
 	for(uint32_t i = 0; i < this->stats.numbsurface; i++){
-		getsurface(cur);
+		getSurface(cur);
 		
 		//volume = abs (a dot (b cross c)) /6 x sign 
 		cross[0] = cur[2 *3 + 1]*cur[3*3 + 2]-cur[2*3 + 2]*cur[3*3 + 1];
@@ -194,18 +195,21 @@ Objstats StlReader :: getfeatures(void){
   		partial = abs(partial) / 6.0;
 
   		float normsum = 0;
+  		//normal points awway from object
   		for( int j = 0; j < 3; j++)
   			normsum += cur[0*3 + i];
   		//see if dot product of surface normal is positive
   		if(normsum < 0) {
-  			//normal facing away add
-  			total += partial;
-  		}else total -= partial;
+  			//negtive faceing toward subtract
+  			
+  			total -= partial;
+  		}else total += partial;
 
 	}
 	mystats.volume = total;
-	std::cout << "total was:"<< total  << std::endl;
-	return mystats;
+	std::cout << "total volume  was:"<< total  << std::endl;
+	* stats = mystats;
+	return 0;
 }
 
 
@@ -255,7 +259,7 @@ int StlReader :: setRotation (float spin[3]){
 }
 
 
-int StlReader :: restreading(void){
+int StlReader :: restReading(void){
 	source.clear();
 	source.seekg(84);
 	return 0;

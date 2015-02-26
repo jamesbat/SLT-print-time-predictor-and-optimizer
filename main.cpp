@@ -10,15 +10,16 @@ int main(void)
   std::string name = "/home/accts/jcb97/proj/stls/Teapot.stl";
   reader.openFile(name, false);
  
-  reader.getstats();
+  reader.getStats();
   reader.stats.print();
-  reader.restreading();
-//  reader.getfeatures();
-   
- // reader.restreading();
- //  reader.getstats();
+  reader.restReading();
+  Objstats stats;
+  reader.getFeatures( &stats);
+   reader.hello();
+  reader.restReading();
+   reader.getStats();
   
-// reader.stats.print();
+ reader.stats.print();
 
   return 0;
 }

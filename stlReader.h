@@ -29,9 +29,9 @@ typedef float sur[12]; //norm then 3 vertexes
 //};
 
 struct Objstats{
-	float surfaceArea;
+//	float surfaceArea;
 	float volume;
-	float dim[3];
+//	float dim[3];
 };
 
 struct StlTransform{
@@ -61,12 +61,13 @@ public:
 
 	StlReader(void){
 		this->transform.active = false;
+		this->transform.rotate = false;
 		this->open = false;
 	}
 
 	void hello(void);
 	
-	int getstats (void);
+	int getStats (void);
 	int openFile (std::string newname, bool overwrite );
 	//open file check if is binary or text 
 
@@ -76,11 +77,11 @@ public:
 	int store (std::string newname);
 	//store at this file name
 
-	int getsurface(sur out);
+	int getSurface(sur out);
 	
 	//returns a surfacce will all vertexes at 0 if fail 
-	Objstats getfeatures(void);
-	int restreading(void);
+	int getFeatures(Objstats *stats);
+	int restReading(void);
 };  
 
 
