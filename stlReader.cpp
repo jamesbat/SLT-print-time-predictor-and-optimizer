@@ -7,7 +7,18 @@
 void  StlReader ::  hello(void){
 		std::cout << "Hello i'm a reader World!" << std::endl;
 	} 
-
+void printArray(float * A, int row, int col){
+  if(row * col > 100) {
+    printf("error huge array print\n");
+    return;
+  }
+  for(int i = 0; i < row; i++){
+    for(int j = 0 ; j < col; j++)
+    std::cout <<A[i*col + j] << " - " ;
+    std::cout <<std::endl;
+  }
+ std::cout <<std::endl;
+}
 int printSur(sur in){
 	for(int i = 0; i < 4; i++){
 		for(int j = 0 ; j < 3; j++ )
@@ -57,11 +68,11 @@ int StlReader :: getSurface(sur out){
 
 
 	if(this->transform.rotate){
-		std::cout << "I'm rotating" << std::endl;
+		//std::cout << "I'm rotating" << std::endl;
 		source.read((char *) first, sizeof(float) *12);
 		source.read(waste, 2);
 		for(int vert= 0; vert< 4; vert++)
-			matrixmult (this->transform.R , first, out , 3, 3, 4 );
+			matrixmult ( this->transform.R , & first[3*vert], &out[3*vert] , 3, 3, 1 );
 		
 		return 0;
 	}else{
@@ -214,15 +225,17 @@ int StlReader :: getFeatures(Objstats * stats){
 
 
 
-void setsquare( float rad, int a, int b, float * mat){
+void setsquare( float rad, int a, int b, float * mat, bool flipSign){
 	//assumes 3 x3  a > b
+	int sign = 1;
+	if(flipSign == true) sign = -1;
 	float cosTemp =0;
 	float sinTemp = 0;
 	 cosTemp = cos(rad);
 	 sinTemp = sin(rad);
 	 mat[ a + 3*a] = cosTemp;
-	 mat[ b + 3*a ] = -1 * sinTemp;
-	 mat[a + 3*b] = sinTemp;
+	 mat[ b + 3*a ] = -1 * sinTemp * sign;
+	 mat[a + 3*b] = sinTemp* sign;
 	 mat[b + 3*b] = cosTemp;
 	 return;
 }
@@ -240,19 +253,32 @@ int StlReader :: setRotation (float spin[3]){
 	//x then y then z
 	
 	 float Rx[9];
+	 float  Ry[9];
+	 float Rz[9];
+	 for( int i = 0 ; i < 9; i++){
+	 	Rx[i] = 0.0;
+	 	Ry[i] = 0.0;
+	 	Rz[i] = 0.0;
+	 }
+
 	 Rx[0] = 1;
-	setsquare(spin[0], 1 ,2, Rx);
-
-	float  Ry[9];
-	Ry[4] = 1;
-	setsquare(spin[1], 0 , 2, Ry);
-
-	float Rz[9];
-	Rz[8] = 1;
-	setsquare(spin[2], 0, 1, Rz);
+	setsquare(spin[0], 1 ,2, Rx, false);
+	printArray(Rx, 3, 3);
 	
+
+	Ry[4] = 1;
+	setsquare(spin[1], 0 , 2, Ry, true);
+	printArray(Ry, 3, 3);
+	
+
+	Rz[8] = 1;
+	setsquare(spin[2], 0, 1, Rz, false);
+	printArray(Rz, 3, 3);	
+
 	matrixmult (Rx , Ry, tempR, 3, 3, 3 );
 	matrixmult (tempR , Rz, this->transform.R, 3, 3, 3 );
+ //for( int i = 0 ; i < 9; i++)
+ 	//this->transform.R[i] = Rx[i];
 	this->transform.rotate = true;
 	return 0;
 

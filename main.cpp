@@ -1,5 +1,5 @@
 
- 
+ #define PI 3.14159265
 
 #include "stlReader.h"
 int main(void)
@@ -15,7 +15,14 @@ int main(void)
   reader.restReading();
   Objstats stats;
   reader.getFeatures( &stats);
-   reader.hello();
+   reader.restReading();
+
+
+   float spin[3];
+   spin[0] = 0.0;
+    spin[1] = PI/2;
+     spin[2] = PI/2;
+   reader.setRotation(spin);
   reader.restReading();
    reader.getStats();
   

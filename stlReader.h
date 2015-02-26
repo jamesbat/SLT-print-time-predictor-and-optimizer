@@ -20,7 +20,7 @@ public:
 	void print(void);
 };
 
-typedef float sur[12]; //norm then 3 vertexes
+typedef float sur[12];// 3 *4  //norm then 3 vertexes
 
 
 
