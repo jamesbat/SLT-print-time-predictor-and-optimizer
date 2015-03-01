@@ -14,7 +14,8 @@ int main(void)
   reader.stats.print();
   reader.restReading();
   Objstats stats;
-  reader.getFeatures( &stats);
+  FeatureFinder finder;
+  finder.getFeatures( &stats, &reader);
    reader.restReading();
 
 
@@ -27,6 +28,25 @@ int main(void)
    reader.getStats();
   
  reader.stats.print();
+ reader.setDown(false);
+ reader.restReading();
+    reader.getStats();
+  
 
+ reader.stats.print();
+  reader.restReading();
+
+
+
+  /*
+  reader.restReading();
+ reader.saveObject("/home/accts/jcb97/proj/stls/Teapotspin.stl");
+std::cout << " -------------------------------"<< std::endl;
+StlReader modreader;
+modreader.openFile("/home/accts/jcb97/proj/stls/Teapotspin.stl", false);
+ reader.restReading();
+modreader.getStats();
+modreader.stats.print();
+*/
   return 0;
 }

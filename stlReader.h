@@ -1,10 +1,9 @@
 #ifndef STLREADER_H
 #define STLREADER_H
-//surface area 
+//corrners 
 //raft area 
 //more some functions to utils 
-//save output 
-//translation and scaling 
+//scaling check
 //check surface normal
 
 #include <cstdlib>
@@ -12,6 +11,7 @@
 #include <cstdint>
 #include <fstream>
 #include <string>
+
 class StlStats{
 public:
 	uint32_t numbsurface;
@@ -23,11 +23,6 @@ public:
 typedef float sur[12];//   //norm then 3 vertexes
 
 
-
-//struct sur{
-//	float verts[4][3];
-//};
-
 struct Objstats{
 	float surfaceArea; //mm^2
 	float volume; // mm^3
@@ -36,13 +31,16 @@ struct Objstats{
 };
 
 struct StlTransform{
-	float trans[3];
+	//objects are rotated first 
+	//then scaled then translated
+	float R[9];
+	//x- y   x - z   	y - z
 	float scale[3];
+	float trans[3];
 	bool active;
 	
 	bool rotate; 
-	float R[9];
-	//x- y   x - z   	y - z
+	
 	
 };
 
@@ -64,26 +62,51 @@ public:
 		this->transform.active = false;
 		this->transform.rotate = false;
 		this->open = false;
+		for(int i = 0 ; i < 3; i++)
+			this->transform.scale[i] = 1.0;
 	}
 
 	void hello(void);
-	
-	int getStats (void);
+
+	int restReading(void);
+	//restart reading at first surface
+	int getSurface(sur out);
+	//read out next surface 
+
 	int openFile (std::string newname, bool overwrite );
 	//open file check if is binary or text 
+	int saveObject(std::string newname );
+	// save object in current orrientation and possiton 
+
+	int getStats (void);
+	//read the extrema of the object in current config
+	
+	
 
 	int setRotation (float spin[3]);
 	//input   roll roundx  pitch roundy     inyaw round z 
+	//a rtated object should be shrinked and set down befor being printed 
 
-	int store (std::string newname);
-	//store at this file name
-
-	int getSurface(sur out);
+	int shrinkToFit(int dim[3], bool curstats );
+	//will shrink to fit in a x y z box 
 	
-	//returns a surfacce will all vertexes at 0 if fail 
-	int getFeatures(Objstats *stats);
-	int restReading(void);
+	int setDown(bool curstats);
+	//moves object so its min z is 0 and it is centered in x and y 
+	//curstats mark true if object has not been rotated or moved since last get stats 
+
+
+
+
+	
 };  
+
+
+class FeatureFinder{
+public:
+	int getFeatures(Objstats * stats, StlReader * reader);
+};
+
+
 
 
 

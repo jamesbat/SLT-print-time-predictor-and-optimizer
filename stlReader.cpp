@@ -14,7 +14,7 @@ void printArray(float * A, int row, int col){
   }
   for(int i = 0; i < row; i++){
     for(int j = 0 ; j < col; j++)
-    std::cout <<A[i*col + j] << " - " ;
+    std::cout <<A[i*col + j] << " ~ " ;
     std::cout <<std::endl;
   }
  std::cout <<std::endl;
@@ -47,12 +47,6 @@ void matrixmult (float * A , float * B, float * C, int n, int p, int m ){
     }
   }
 }
-void cross(float * A, float * B, float * C){
-	//assume 3x3
-	C[0] = A[ 1]* B[ 2]-A[ 2]* B[ 1];
- 	C[1] = A[ 2]* B[ 0]-A[ 0]* B[ 2];
-  	C[2] = A[ 0]* B[ 1]-A[ 1]* B[ 0];
-}
 
 int StlReader :: getSurface(sur out){
 	sur first;
@@ -62,16 +56,6 @@ int StlReader :: getSurface(sur out){
 		std::cout << "cant read from closed reader" << std::endl;
 		return -1;
 	}
-	//for(int vert= 0; vert< 4; vert++)
-	//			source.read((char *) out, sizeof(float) *12);
-		//for(int vert= 0; vert< 4; vert++)
-		//	source.read((char *) &first[vert * 3], sizeof(float)*3 );
-		//source.read((char *)  first, sizeof(float) *12);
-	//	source.read(waste, 2);
-//	for( int i = 0 ; i < 4; i ++)
-//		for(int j = 0; j < 3; j++)
-//				out[4*i +j] = in [j][i];
-
 
 	if(this->transform.rotate){
 		//std::cout << "I'm rotating" << std::endl;
@@ -80,17 +64,20 @@ int StlReader :: getSurface(sur out){
 		for(int vert= 0; vert< 4; vert++)
 			matrixmult ( this->transform.R , & first[3*vert], &out[3*vert] , 3, 3, 1 );
 		
-		return 0;
+		
 	}else{
 
 		source.read((char *) out, sizeof(float) *12);
 		source.read(waste, 2);
-		
-		
-	return 0;
+	
 	}
+	if(this->transform.active == true)
+		for(int vert = 1; vert < 4;  vert++)
+			for(int j = 0; j < 3; j++)
+				out[vert * 3 + j] = out[vert * 3 + j] *this->transform.scale[j] 
+										+ this->transform.trans[j];
 	//printSur(out);
-
+	return 0;
 }
 
 
@@ -179,7 +166,20 @@ int StlReader :: getStats (void){
 	return -1;
 }
 
+int StlReader:: setDown(bool curstats){
+	if(curstats == false){
+		this->restReading();
+		this->getStats();
+	}
+	this->transform.active = true;
+	printArray(this->stats.extrema, 3,3);
+	this->transform.trans[0] = (this->stats.extrema[0]+ this->stats.extrema[1])/-2.0;
+	this->transform.trans[1] = (this->stats.extrema[2]+ this->stats.extrema[3])/-2.0;
+	this->transform.trans[2] = this->stats.extrema[4]* -1.0;
 
+	printArray(this->transform.trans, 3,1);
+	return 0;
+}
 
 
 void StlStats:: print(void){
@@ -193,65 +193,7 @@ void StlStats:: print(void){
 }
 
 
-int StlReader :: getFeatures(Objstats * stats){
-	Objstats mystats;
-	float crossProd[3];
-	float A[3];
-  	float B[3];
-	float VolTotal = 0;
-	float areaTotal = 0.0;
-	float partial = 0;
-	sur cur;
-	for(uint32_t i = 0; i < this->stats.numbsurface; i++){
-		getSurface(cur);
-		
-	//volume = abs (a dot (b cross c)) /6 x sign 
-		//cross[0] = cur[2 *3 + 1]*cur[3*3 + 2]-cur[2*3 + 2]*cur[3*3 + 1];
- 		//cross[1] = cur[2*3 + 2]*cur[3*3 + 0]-cur[2*3 + 0]*cur[3*3 + 2];
-  		//cross[2] = cur[2*3 + 0]*cur[3*3 + 1]-cur[2*3 + 1]*cur[3*3 + 0];
-  		cross(&cur[2*3], &cur[3*3], crossProd);
-	
-  		partial = crossProd[0] * cur[1*3 + 0] + crossProd[1] * cur[1*3 + 1] + crossProd[2] * cur[1*3 + 2];
 
-  		partial = abs(partial) / 6.0;
-
-  		float normsum = 0;
-  		//normal points awway from object
-  		for( int j = 0; j < 3; j++)
-  			normsum += cur[0*3 + i];
-  		//see if dot product of surface normal is positive
-  		if(normsum < 0) {
-  			//negtive faceing toward subtract
-  			
-  			VolTotal -= partial;
-  		}else VolTotal += partial;
-
-  //surface area 
-  		//get two border vectors 
-  		for(int i =0 ; i < 3 ; i++){
-  			A[i] = cur[2*3 + i] - cur[1*3 + i];
-  			B[i] = cur[3*3 + i] - cur[1*3 + i];
-  		}
-  		//get cross product 
-  		cross(A, B , crossProd); 
-  		//square componants add each take sqrt 
-  		for(int i = 0 ; i < 3; i++)
-  			crossProd[i] = abs(crossProd[i] * crossProd[i]);
-  		partial = 0;
-  		for(int i = 0 ; i < 3; i++)
-  			partial += sqrt(crossProd[i]);
-  		//devide by 2 
-  			areaTotal += partial/2;
-
-
-	}
-	mystats.surfaceArea = areaTotal;
-	std::cout << "total area  was:"<< areaTotal  << std::endl;
-	mystats.volume = VolTotal;
-	std::cout << "total volume  was:"<< VolTotal  << std::endl;
-	* stats = mystats;
-	return 0;
-}
 
 
 
@@ -291,17 +233,17 @@ int StlReader :: setRotation (float spin[3]){
 
 	 Rx[0] = 1;
 	setsquare(spin[0], 1 ,2, Rx, false);
-	printArray(Rx, 3, 3);
+//	printArray(Rx, 3, 3);
 	
 
 	Ry[4] = 1;
 	setsquare(spin[1], 0 , 2, Ry, true);
-	printArray(Ry, 3, 3);
+//	printArray(Ry, 3, 3);
 	
 
 	Rz[8] = 1;
 	setsquare(spin[2], 0, 1, Rz, false);
-	printArray(Rz, 3, 3);	
+//	printArray(Rz, 3, 3);	
 
 	matrixmult (Rx , Ry, tempR, 3, 3, 3 );
 	matrixmult (tempR , Rz, this->transform.R, 3, 3, 3 );
@@ -315,4 +257,38 @@ int StlReader :: restReading(void){
 	source.clear();
 	source.seekg(84);
 	return 0;
+}
+
+int StlReader :: saveObject(std::string newname ){
+	std::ofstream outfile;
+	outfile.open (newname, std::ios::out | std::ios::trunc|  std::ios::binary); 
+	char header[84];
+	sur in;
+	uint16_t surfsize = sizeof(sur);
+	if(outfile.is_open()){
+		source.clear();
+		source.seekg(0);
+		source.read((char *) header, 84);
+		outfile.write((char *) header, 84);
+		for( int surface = 0; surface < (int) this->stats.numbsurface; surface++){
+			this -> getSurface(in);	
+			outfile.write((char *) in, sizeof(sur));
+			outfile.write((char *)& surfsize, 2);
+		}
+		outfile.close();
+
+	}
+	 else std::cout << "Unable to output file";
+	return 0;
+}
+
+int StlReader ::  shrinkToFit(int dim[3], bool curstats ){
+	if(curstats == false)
+		this->getStats();
+	float range = 0.0;
+	for( int i = 0; i < 3; i++){
+		range = (abs(this->stats.extrema[i*2]) + abs(this->stats.extrema[i*2 +1]));
+		if(range > dim[i]) this->transform.scale[i] *= dim[i] / range ; 
+	}
+	return 0; 
 }
