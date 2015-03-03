@@ -17,7 +17,7 @@ void cross(float * A, float * B, float * C){
 
 
 
-int FeatureFinder:: getFeatures(Objstats * stats, StlReader * reader){
+int FeatureFinder ::getFeatures(Objstats * stats, StlReader * reader){
 	Objstats mystats;
 	float crossProd[3];
 	float A[3];
@@ -66,6 +66,8 @@ int FeatureFinder:: getFeatures(Objstats * stats, StlReader * reader){
 
 
 	}
+	mystats.layers = reader->stats.extrema[5]/ this->layerThickness;
+	std::cout << "total layers were:"<< mystats.layers  << std::endl;
 	mystats.surfaceArea = areaTotal;
 	std::cout << "total area  was:"<< areaTotal  << std::endl;
 	mystats.volume = VolTotal;

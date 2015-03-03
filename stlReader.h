@@ -81,7 +81,7 @@ public:
 	int getStats (void);
 	//read the extrema of the object in current config
 	
-	
+	int close(void);
 
 	int setRotation (float spin[3]);
 	//input   roll roundx  pitch roundy     inyaw round z 
@@ -103,6 +103,7 @@ public:
 
 class FeatureFinder{
 public:
+	float layerThickness = .2;
 	int getFeatures(Objstats * stats, StlReader * reader);
 };
 

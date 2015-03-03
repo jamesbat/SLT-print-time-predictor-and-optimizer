@@ -4,7 +4,7 @@
 #include <iostream>
 #include <cmath>
 
-void  StlReader ::  hello(void){
+void  StlReader ::hello(void){
 		std::cout << "Hello i'm a reader World!" << std::endl;
 	} 
 void printArray(float * A, int row, int col){
@@ -48,7 +48,7 @@ void matrixmult (float * A , float * B, float * C, int n, int p, int m ){
   }
 }
 
-int StlReader :: getSurface(sur out){
+int StlReader ::getSurface(sur out){
 	sur first;
 	char waste[2];
 	//float in[4][3];
@@ -81,7 +81,7 @@ int StlReader :: getSurface(sur out){
 }
 
 
-int StlReader :: openFile (std::string newname, bool overwrite){
+int StlReader ::openFile (std::string newname, bool overwrite){
 	if(source.is_open()) return -1;
 	source.open(newname, std::ios::in | std::ios::binary); 
 	if(!source.is_open()) {
@@ -118,10 +118,15 @@ int StlReader :: openFile (std::string newname, bool overwrite){
 	return 0;
 }
 
+int StlReader ::close(void){
+	this->source.close();
+	this->open = false;
+	this->stats.numbsurface = 0;
+	return 0;
+}
 
 
-
-int StlReader :: getStats (void){
+int StlReader ::getStats (void){
 	//read through surfaces 
 	float max = std::numeric_limits<float>::max()/10 ;
 	for(int i =0; i < 3; i++){
@@ -166,23 +171,23 @@ int StlReader :: getStats (void){
 	return -1;
 }
 
-int StlReader:: setDown(bool curstats){
+int StlReader ::setDown(bool curstats){
 	if(curstats == false){
 		this->restReading();
 		this->getStats();
 	}
 	this->transform.active = true;
-	printArray(this->stats.extrema, 3,3);
+//	printArray(this->stats.extrema, 3,3);
 	this->transform.trans[0] = (this->stats.extrema[0]+ this->stats.extrema[1])/-2.0;
 	this->transform.trans[1] = (this->stats.extrema[2]+ this->stats.extrema[3])/-2.0;
 	this->transform.trans[2] = this->stats.extrema[4]* -1.0;
 
-	printArray(this->transform.trans, 3,1);
+//	printArray(this->transform.trans, 3,1);
 	return 0;
 }
 
 
-void StlStats:: print(void){
+void StlStats ::print(void){
 	std::cout << " numbsurface "; 
 	std::cout << this->numbsurface << std::endl;
 	std::cout << "x: "<< this->extrema[0]<< " -- "<< this->extrema[1] ;
@@ -214,7 +219,7 @@ void setsquare( float rad, int a, int b, float * mat, bool flipSign){
 
 
 
-int StlReader :: setRotation (float spin[3]){
+int StlReader ::setRotation (float spin[3]){
 	//calculate the rotation matrix 
 	// assume inputs in radians 
 	// start with identity 
@@ -253,13 +258,13 @@ int StlReader :: setRotation (float spin[3]){
 }
 
 
-int StlReader :: restReading(void){
+int StlReader ::restReading(void){
 	source.clear();
 	source.seekg(84);
 	return 0;
 }
 
-int StlReader :: saveObject(std::string newname ){
+int StlReader ::saveObject(std::string newname ){
 	std::ofstream outfile;
 	outfile.open (newname, std::ios::out | std::ios::trunc|  std::ios::binary); 
 	char header[84];
@@ -282,7 +287,7 @@ int StlReader :: saveObject(std::string newname ){
 	return 0;
 }
 
-int StlReader ::  shrinkToFit(int dim[3], bool curstats ){
+int StlReader ::shrinkToFit(int dim[3], bool curstats ){
 	if(curstats == false)
 		this->getStats();
 	float range = 0.0;
