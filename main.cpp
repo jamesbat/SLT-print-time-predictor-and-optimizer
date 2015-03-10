@@ -11,7 +11,7 @@ int main(void)
    std::string basename = "/home/accts/jcb97/proj/stls/";
 
 
-  reader.openFile(basename + "Teapot.stl", false);
+  reader.openFile(basename + "data/9.stl", false);
   reader.getStats();
   reader.restReading();
  Objstats stats;
@@ -20,8 +20,8 @@ int main(void)
    reader.restReading();
 
 
-  //Predictor guesser;
-  //guesser.
+ //Predictor guesser;
+ // guesser.learnFrom("./data");
   /* float spin [3];
     int dim[3];
    dim[0] =300;

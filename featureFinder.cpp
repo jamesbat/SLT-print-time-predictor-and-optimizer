@@ -16,7 +16,6 @@ void cross(float * A, float * B, float * C){
 //if colide take corrner 
 
 
-
 int FeatureFinder ::getFeatures(Objstats * stats, StlReader * reader){
 	Objstats mystats;
 	float crossProd[3];
@@ -28,7 +27,7 @@ int FeatureFinder ::getFeatures(Objstats * stats, StlReader * reader){
 	sur cur;
 	for(uint32_t i = 0; i < (reader)->stats.numbsurface; i++){
 		(reader)->getSurface(cur);
-		
+
 	
   		cross(&cur[2*3], &cur[3*3], crossProd);
 	
@@ -39,7 +38,7 @@ int FeatureFinder ::getFeatures(Objstats * stats, StlReader * reader){
   		float normsum = 0;
   		//normal points awway from object
   		for( int j = 0; j < 3; j++)
-  			normsum += cur[0*3 + i];
+  			normsum += cur[0*3 + j];
   		//see if dot product of surface normal is positive
   		if(normsum < 0) {
   			//negtive faceing toward subtract
@@ -66,6 +65,7 @@ int FeatureFinder ::getFeatures(Objstats * stats, StlReader * reader){
 
 
 	}
+
 	mystats.layers = reader->stats.extrema[5]/ this->layerThickness;
 	std::cout << "total layers were:"<< mystats.layers  << std::endl;
 	mystats.surfaceArea = areaTotal;
