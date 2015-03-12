@@ -6,9 +6,9 @@
  
 void cross(float * A, float * B, float * C){
 	//assume 3x3
-	C[0] = A[ 1]* B[ 2]-A[ 2]* B[ 1];
- 	C[1] = A[ 2]* B[ 0]-A[ 0]* B[ 2];
-  	C[2] = A[ 0]* B[ 1]-A[ 1]* B[ 0];
+	C[0] = A[ 1]* B[ 2] - A[ 2]* B[ 1];
+ 	C[1] = A[ 2]* B[ 0] - A[ 0]* B[ 2];
+  C[2] = A[ 0]* B[ 1] - A[ 1]* B[ 0];
 }
 
 //build un ordered map of 2 veretieces + int 012
@@ -21,11 +21,13 @@ int FeatureFinder ::getFeatures(Objstats * stats, StlReader * reader){
 	float crossProd[3];
 	float A[3];
   	float B[3];
-	float VolTotal = 0;
-	float areaTotal = 0.0;
-	float partial = 0;
+	double VolTotal = 0;
+	double areaTotal = 0.0;
+	double partial = 0;
 	sur cur;
-	for(uint32_t i = 0; i < (reader)->stats.numbsurface; i++){
+  reader->restReading();
+  printf("numb surfaces:%d\n",(reader)->stats.numbsurface );
+	for(uint32_t surfnumb = 0; surfnumb < (reader)->stats.numbsurface; surfnumb++){
 		(reader)->getSurface(cur);
 
 	
@@ -36,9 +38,18 @@ int FeatureFinder ::getFeatures(Objstats * stats, StlReader * reader){
   		partial = abs(partial) / 6.0;
 
   		float normsum = 0;
+
+      // want dot of nromal and vecotr from origin to center
+      float centroid[3]; 
+      for(int dim =0; dim< 3; dim++){
+        for(int vert = 0; vert < 3 ; vert++ )
+          centroid[dim] += cur[(vert +1)*3 + dim];
+        centroid[dim] /= 6.0;
+        normsum += cur[dim] *  centroid[dim];
+      }
+
   		//normal points awway from object
-  		for( int j = 0; j < 3; j++)
-  			normsum += cur[0*3 + j];
+  		
   		//see if dot product of surface normal is positive
   		if(normsum < 0) {
   			//negtive faceing toward subtract
@@ -56,10 +67,10 @@ int FeatureFinder ::getFeatures(Objstats * stats, StlReader * reader){
   		cross(A, B , crossProd); 
   		//square componants add each take sqrt 
   		for(int i = 0 ; i < 3; i++)
-  			crossProd[i] = abs(crossProd[i] * crossProd[i]);
+  			crossProd[i] = abs(crossProd[i]);
   		partial = 0;
   		for(int i = 0 ; i < 3; i++)
-  			partial += sqrt(crossProd[i]);
+  			partial += crossProd[i];
   		//devide by 2 
   			areaTotal += partial/2;
 
@@ -67,11 +78,12 @@ int FeatureFinder ::getFeatures(Objstats * stats, StlReader * reader){
 	}
 
 	mystats.layers = reader->stats.extrema[5]/ this->layerThickness;
-	std::cout << "total layers were:"<< mystats.layers  << std::endl;
+	std::cout << " layers:"<< mystats.layers ;
 	mystats.surfaceArea = areaTotal;
-	std::cout << "total area  was:"<< areaTotal  << std::endl;
+	std::cout << "  area :"<< areaTotal ;
 	mystats.volume = VolTotal;
-	std::cout << "total volume  was:"<< VolTotal  << std::endl;
+	std::cout << "  volume:"<< VolTotal  << std::endl;
 	* stats = mystats;
 	return 0;
 }
+ 

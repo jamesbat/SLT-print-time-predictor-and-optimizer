@@ -12,6 +12,7 @@
 #include <fstream>
 #include <string>
 
+
 class StlStats{
 public:
 	uint32_t numbsurface;
@@ -24,10 +25,10 @@ typedef float sur[12];//   //norm then 3 vertexes
 
 
 struct Objstats{
-	float surfaceArea; //mm^2
-	float volume; // mm^3
-	float raftArea;// mm^2
-	float layers; // # layers  
+	double surfaceArea; //mm^2
+	double volume; // mm^3
+	double raftArea;// mm^2
+	double layers; // # layers  
 };
 
 struct StlTransform{
@@ -82,6 +83,7 @@ public:
 	//read the extrema of the object in current config
 	
 	int close(void);
+	void clear(void);
 
 	int setRotation (float spin[3]);
 	//input   roll roundx  pitch roundy     inyaw round z 
@@ -107,6 +109,7 @@ public:
 	int getFeatures(Objstats * stats, StlReader * reader);
 };
 
+void matrixmult (float * A , float * B, float * C, int n, int p, int m );
 
 
 

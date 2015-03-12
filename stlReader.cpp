@@ -19,6 +19,7 @@ void printArray(float * A, int row, int col){
   }
  std::cout <<std::endl;
 }
+
 int printSur(sur in){
 	for(int i = 0; i < 4; i++){
 		for(int j = 0 ; j < 3; j++ )
@@ -90,7 +91,7 @@ int StlReader ::openFile (std::string newname, bool overwrite){
 	}
 	char front[8];
 	 source.read(front, 8);
-	 std::cout << front << std::endl;
+	// std::cout << front << std::endl;
 
 
 	if(strcmp(front, "solid") == 0){
@@ -103,7 +104,7 @@ int StlReader ::openFile (std::string newname, bool overwrite){
 		isbinary = true;
 		char header [ 72];
 		source.read(header, 72);
-		std::cout << header << std::endl;
+	//	std::cout << header << std::endl;
 			if(source.fail())std::cout << "3 in failing failing" << std::endl;
 		uint32_t temp = 0;
 		source.read((char *) &temp, sizeof(temp));
@@ -176,13 +177,21 @@ int StlReader ::setDown(bool curstats){
 		this->restReading();
 		this->getStats();
 	}
+
+
+	this->restReading();
+
 	this->transform.active = true;
 //	printArray(this->stats.extrema, 3,3);
 	this->transform.trans[0] = (this->stats.extrema[0]+ this->stats.extrema[1])/-2.0;
 	this->transform.trans[1] = (this->stats.extrema[2]+ this->stats.extrema[3])/-2.0;
 	this->transform.trans[2] = this->stats.extrema[4]* -1.0;
+	
+	//this->restReading();
+	//this->getStats();
+	//this->stats.print();
+	this->restReading();
 
-//	printArray(this->transform.trans, 3,1);
 	return 0;
 }
 
@@ -198,7 +207,10 @@ void StlStats ::print(void){
 }
 
 
-
+void StlReader ::clear(){
+	this->transform.active = false;
+	this->transform.rotate = false;
+}
 
 
 

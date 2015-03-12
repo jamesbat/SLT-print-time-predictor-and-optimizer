@@ -3,6 +3,21 @@
 
 #include "stlReader.h"
 #include "predictor.h"
+
+
+void pingArray(float * A, int row, int col){
+  if(row * col > 100) {
+    printf("error huge array print\n");
+    return;
+  }
+  for(int i = 0; i < row; i++){
+    for(int j = 0 ; j < col; j++)
+    std::cout <<A[i*col + j] << " ~ " ;
+    std::cout <<std::endl;
+  }
+ std::cout <<std::endl;
+}
+
 int main(void)
 {
 
@@ -11,42 +26,52 @@ int main(void)
    std::string basename = "/home/accts/jcb97/proj/stls/";
 
 
-  reader.openFile(basename + "data/9.stl", false);
+  /*reader.openFile(basename + "data/9.stl", false);
   reader.getStats();
   reader.restReading();
  Objstats stats;
-  FeatureFinder finder;
+  FeatureFinder finder; 
   finder.getFeatures( &stats, &reader);
-   reader.restReading();
+   reader.restReading();*/
 
 
- //Predictor guesser;
- // guesser.learnFrom("./data");
-  /* float spin [3];
+ Predictor guesser;
+  guesser.learnFrom("./data");
+  int buildtime =  guesser.predict("/home/accts/jcb97/proj/stls/data/57.stl");
+  std::cout << " got :" << buildtime << "to print 57"<< std::endl;
+  /*
+   float spin [3];
     int dim[3];
    dim[0] =300;
   dim[1] = 300;
   dim[2] = 300;
  
-  for(int i = 1 ; i <41; i++){
+  for(int i = 25 ; i <41; i++){
     StlReader reader;
     std::string curname = basename+ std::to_string(i) +".stl";
     reader.openFile(curname, false);
-    for(int rot = 0; rot < 3; rot ++){
+    std::cout << curname << std::endl;
+    for(int rot = 0; rot < 4; rot ++){
 
-    for(int j = 0; j <3; j++ )
-      spin[j] = rand() * PI;
-
-      reader.setRotation(spin);
-     reader.getStats();
-     reader.restReading();
+      for(int j = 0; j <3; j++ )
+      {
+        if(rot != 0) spin[j] = rand() * PI;
+        else  spin[j] = 0;
+      }
+       reader.setRotation(spin);
+      reader.getStats();
+      reader.restReading();
  
-     reader.shrinkToFit(dim, false );
+      reader.shrinkToFit(dim, false );
           reader.restReading();
-     reader.setDown(false);
+      reader.setDown(false);
           reader.restReading();
-     std::string outname = basename + "data/" + std::to_string(i*3 + rot)+".stl";
-     reader.saveObject(outname);
+      std::string outname = basename + "data/" + std::to_string(i*3 + rot)+".stl";
+      reader.saveObject(outname);
+
+      //pingArray(reader.transform.trans, 3,1);
+       //   std::cout <<  std::endl;
+      reader.clear();
     }
   }*/
  /*
