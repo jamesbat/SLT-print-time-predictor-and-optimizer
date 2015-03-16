@@ -1,4 +1,4 @@
-
+ 
 #include "predictor.h"
 #include "cpp/src/ap.h"
 #include "cpp/src/linalg.h"
@@ -48,41 +48,52 @@ int Predictor ::learnFrom(std::string filename){
 	std::string::size_type divider =0;
 	reader.close();
 	//open file 
-	/*std::ifstream input;
+	std::ifstream input;
 	input.open(filename, std::ios::in);
 	if(!input.is_open()) {
 		std::cout << "could not open "<< filename << std::endl;
 		return -2;
-	}*/
-	FILE * pFile = fopen(filename.c_str(), "w+");
+	}//
+	//FILE * pFile = fopen(filename.c_str(), "w+");
 	//get number of data points
+	
+
 	//std::getline(input, line);
+	//std::cout << "goodbit:"; std::print_state(input); std::cout << '\n';
+	//std::cout << line;
+	  std::cout << "ping 1" << std::endl;
+	  input >> numbpoints ;
 	//numbpoints = stoi(line, &divider , 10);
-	fscanf(pFile,"%d\n", &numbpoints);
+		  std::cout << numbpoints<< "ping 2" << std::endl;
+	//fscanf(pFile,"%d\n", &numbpoints);
 	if(numbpoints == 0) std::cout << "zero data  points" << std::endl;
 	data.setlength(numbpoints, featDim);
 	times.setlength(numbpoints, 1);
-	printf("there are %d data points \n", numbpoints);
+	std::cout << "there are "<< numbpoints<< " data points " << std::endl;
 	
 
-	int printmins =0;
-	int printhours =0;
+	//int printmins =0;
+	//int printhours =0;
 
 	std::string front = "/home/accts/jcb97/proj/stls/data/";
 	std::string back = ".stl";
-	
+//pull out first line with number of obj 
+std::getline(input, line);
+
 	for(int i = 0; i < numbpoints; i++){	
 	//parse each line
-		//std::getline(input, line);
-		char temp[256];
-		fscanf(pFile,"%s\t%d:%d\n", temp, &printhours, &printmins );
+		std::getline(input, line);
+		//std::cout << line << std::endl;
+
+
 	//string is file name
-		//divider = line.find('\t',0 );
-		//name = line.substr(0, divider );
-		std::string objname(temp);
-		std::cout << "opening "<< objname  << std::endl;
+		divider = line.find('\t',0 );
+		name = line.substr(0, divider );
+		//std::string objname(temp);
+		
+		std::cout << "opening "<< name  << std::endl;
 	//open file in reader
-		reader.openFile(front + objname + back, false);
+		reader.openFile(front + name + back, false);
 		reader.getStats();
 		reader.restReading();
 
@@ -96,17 +107,16 @@ int Predictor ::learnFrom(std::string filename){
 		reader.close();
 
 	//parse out time 
-	/*
-		printTime = std::stoi(&cline[divider], &divider, 10);
-		std::cout << "hours :"<<printTime  << std::endl;
 	
-
+		printTime = std::stoi(&line[divider], &divider, 10);
+	//	std::cout << "hours :"<<printTime  << std::endl;
 		printTime = printTime * 60; //hours first 
 		divider = line.find(':', 0 );//then minutes 
-		std::cout << "div is :"<<divider  << std::endl;
-		printTime = printTime + std::stoi(&cline[divider-1], &divider, 10);
-		std::cout << "div is :"<<divider  << std::endl;*/
-		printTime = printTime * 60 + printmins;
+		name = line.substr(divider +1, line.length() - divider -1 );
+	//	std::cout << "div is :"<<divider<< ' '<< name  << std::endl;
+
+		printTime = printTime *60 + std::stoi(name, &divider, 10);
+	//	std::cout << "div is :"<<divider  << std::endl;
 		times(i, 0 ) = printTime;
 
 		std::cout << "finnished obj TIME :"<<printTime  << std::endl;
