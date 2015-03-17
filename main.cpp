@@ -39,6 +39,13 @@ int main(void)
   guesser.learnFrom("./data");
   int buildtime =  guesser.predict("/home/accts/jcb97/proj/stls/data/57.stl");
   std::cout << " got :" << buildtime << "to print 57"<< std::endl;
+  guesser.store("currentModel");
+  double score = guesser.test("./data");
+  std::cout <<" guesser got" << score << std::endl;
+  Predictor secondguesser;
+  secondguesser.read("currentModel");
+  score = secondguesser.test("./data");
+  std::cout <<" secondguesser got" << score << std::endl;
   /*
    float spin [3];
     int dim[3];

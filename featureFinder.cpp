@@ -78,11 +78,11 @@ int FeatureFinder ::getFeatures(Objstats * stats, StlReader * reader){
 	}
 
 	mystats.layers = reader->stats.extrema[5]/ this->layerThickness;
-	std::cout << " layers:"<< mystats.layers ;
+	//std::cout << " layers:"<< mystats.layers ;
 	mystats.surfaceArea = areaTotal;
-	std::cout << "  area :"<< areaTotal ;
+//	std::cout << "  area :"<< areaTotal ;
 	mystats.volume = VolTotal;
-	std::cout << "  volume:"<< VolTotal  << std::endl;
+	//std::cout << "  volume:"<< VolTotal  << std::endl;
 	* stats = mystats;
 	return 0;
 }

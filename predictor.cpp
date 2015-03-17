@@ -24,7 +24,6 @@ void getArray(alglib::real_2d_array  A, int row, int col){
     printf("error huge array print\n");
     return;
   }
-  
 
   for(int i = 0; i < row ; i++){
     for(int j = 0 ; j < col; j++)
@@ -33,6 +32,30 @@ void getArray(alglib::real_2d_array  A, int row, int col){
   }
  std::cout <<std::endl;
 }
+
+
+void Predictor ::store(std::string filename){
+	std::ofstream output;
+	output.open(filename, std::ios::out);
+	std::cout << "storing " ;
+	for(int i = 0;  i < featDim; i++){
+		output << W[i] << ' ';
+		std::cout << W[i] << " ";
+	}
+  }
+void Predictor ::read(std::string filename){
+	std::ifstream input;
+	input.open(filename, std::ios::in);
+	std::cout << "reading " ;
+	for(int i = 0;  i < featDim; i++){
+		input >> W[i];
+		std::cout << W[i] << " ";
+	}
+	educated = true;
+
+}
+
+
 
 int Predictor ::learnFrom(std::string filename){
 	int numbpoints = 0;
@@ -54,26 +77,14 @@ int Predictor ::learnFrom(std::string filename){
 		std::cout << "could not open "<< filename << std::endl;
 		return -2;
 	}//
-	//FILE * pFile = fopen(filename.c_str(), "w+");
-	//get number of data points
-	
 
-	//std::getline(input, line);
-	//std::cout << "goodbit:"; std::print_state(input); std::cout << '\n';
-	//std::cout << line;
-	  std::cout << "ping 1" << std::endl;
 	  input >> numbpoints ;
-	//numbpoints = stoi(line, &divider , 10);
-		  std::cout << numbpoints<< "ping 2" << std::endl;
-	//fscanf(pFile,"%d\n", &numbpoints);
+
 	if(numbpoints == 0) std::cout << "zero data  points" << std::endl;
 	data.setlength(numbpoints, featDim);
 	times.setlength(numbpoints, 1);
 	std::cout << "there are "<< numbpoints<< " data points " << std::endl;
-	
 
-	//int printmins =0;
-	//int printhours =0;
 
 	std::string front = "/home/accts/jcb97/proj/stls/data/";
 	std::string back = ".stl";
@@ -83,7 +94,6 @@ std::getline(input, line);
 	for(int i = 0; i < numbpoints; i++){	
 	//parse each line
 		std::getline(input, line);
-		//std::cout << line << std::endl;
 
 
 	//string is file name
@@ -109,11 +119,9 @@ std::getline(input, line);
 	//parse out time 
 	
 		printTime = std::stoi(&line[divider], &divider, 10);
-	//	std::cout << "hours :"<<printTime  << std::endl;
 		printTime = printTime * 60; //hours first 
 		divider = line.find(':', 0 );//then minutes 
 		name = line.substr(divider +1, line.length() - divider -1 );
-	//	std::cout << "div is :"<<divider<< ' '<< name  << std::endl;
 
 		printTime = printTime *60 + std::stoi(name, &divider, 10);
 	//	std::cout << "div is :"<<divider  << std::endl;
@@ -123,12 +131,9 @@ std::getline(input, line);
 	
 	}
 	printf("5%ld %ld\n", (long)data.rows(), (long)data.cols());
-	//close file 
-	//pFile.close();
+
 getArray(data, numbpoints, featDim);
-	//alglib::real_2d_array dataTran;
-	//dataTran.setlength( featDim, numbpoints);
-	//rmatrixtranspose(numbpoints, featDim, data, 0, 0,dataTran, 0,0);
+
 	std::cout << "starting computation"  << std::endl;
 	alglib::real_2d_array partial;
 	partial.setlength(featDim, featDim);
@@ -209,3 +214,87 @@ int Predictor ::predict(std::string filename){
 	//return it
 	return out;
 } 
+
+int Predictor ::test(std::string filename){
+	if(! educated) return -1;
+	//r^2	//R = 1- ssres  / sstot
+	//sstot = sum (yi - yave)^2
+	//ssres = sum (yi - prediced yi)^2
+
+	//build build time and etime arrays
+		int numbpoints = 0;
+
+
+	float printTime =0;
+	std::string line;
+	std::string name;
+	std::string::size_type divider =0;
+	reader.close();
+	//open file 
+	std::ifstream input;
+	input.open(filename, std::ios::in);
+	if(!input.is_open()) {
+		std::cout << "could not open "<< filename << std::endl;
+		return -2;
+	}//
+
+	  input >> numbpoints ;
+
+	if(numbpoints == 0) std::cout << "zero data  points" << std::endl;
+	const int constpoints = numbpoints;
+
+	double times[constpoints];
+	double eTimes[constpoints];
+	std::cout << "there are "<< numbpoints<< " data points " << std::endl;
+
+
+	std::string front = "/home/accts/jcb97/proj/stls/data/";
+	std::string back = ".stl";
+//pull out first line with number of obj 
+std::getline(input, line);
+	int timeTotal = 0;
+	for(int i = 0; i < numbpoints; i++){	
+	//parse each line
+		std::getline(input, line);
+
+
+	//string is file name
+		divider = line.find('\t',0 );
+		name = line.substr(0, divider );
+		//std::string objname(temp);
+		
+	
+	//predict time
+		eTimes[i] = predict(front + name + back);
+		
+
+	//read time 
+	
+		printTime = std::stoi(&line[divider], &divider, 10);
+		printTime = printTime * 60; //hours first 
+		divider = line.find(':', 0 );//then minutes 
+		name = line.substr(divider +1, line.length() - divider -1 );
+
+		printTime = printTime *60 + std::stoi(name, &divider, 10);
+		times[i] = printTime;
+
+		timeTotal += printTime;
+	
+	}
+	double yave = timeTotal / numbpoints;
+	 double ssTot = 0;
+	 double ssRes = 0;
+	 //R = 1- ssres  / sstot
+	//sstot = sum (yi - yave)^2
+	//ssres = sum (yi - prediced yi)^2
+	 for( int i = 0 ; i < numbpoints; i++){
+	 	ssTot += pow((times[i] - yave), 2 );
+	 	ssRes += pow(( times[i]- eTimes[i] ), 2 );
+	 	std::cout << times[i] << " ~ " << times[i]- eTimes[i]<< std::endl;
+	 }
+	 double R = 1 - ssTot/ ssRes;
+
+	//get yave
+	return R;
+
+}

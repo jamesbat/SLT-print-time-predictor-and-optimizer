@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS= -pedantic -Wall -g3 -std=c++11 -fpermissive
+CFLAGS=  -Wall -g3 -std=c++11 -fpermissive
 LIB = ./cpp/src/
 
 
