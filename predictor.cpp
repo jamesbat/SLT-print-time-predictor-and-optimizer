@@ -3,6 +3,7 @@
 #include "cpp/src/ap.h"
 #include "cpp/src/linalg.h"
 #include "cpp/src/alglibinternal.h"
+#include "cpp/src/dataanalysis.h"
 #include "stlReader.h"
 
 //features followed by print time in minutes 
@@ -62,7 +63,7 @@ int Predictor ::learnFrom(std::string filename){
 	Objstats feature;
 
 	alglib::real_2d_array data;
-	alglib::real_2d_array times;
+	//alglib::real_2d_array times;
 	//times in minutes 
 
 	float printTime =0;
@@ -81,9 +82,11 @@ int Predictor ::learnFrom(std::string filename){
 	  input >> numbpoints ;
 
 	if(numbpoints == 0) std::cout << "zero data  points" << std::endl;
-	data.setlength(numbpoints, featDim);
-	times.setlength(numbpoints, 1);
 	std::cout << "there are "<< numbpoints<< " data points " << std::endl;
+	
+	data.setlength(numbpoints, featDim + 1);
+	//times.setlength(numbpoints, 1);
+	
 
 
 	std::string front = "/home/accts/jcb97/proj/stls/data/";
@@ -112,13 +115,9 @@ std::getline(input, line);
 		finder.getFeatures(&feature, &reader);
 		for(int j = 0; j < featDim; j++)
 			data(i, j) = feature.data[j];
-		//data(i, 2)  = feature.surfaceArea;
-		//data(i, 1)  = feature.volume;
-		//data(i, 2)  = feature.raftArea;
-		//data(i, 0)  = feature.layers;
-	//	data(i, 3)  = feature.constant;
+		
 		reader.close();
-
+ 
 	//parse out time 
 	
 		printTime = std::stoi(&line[divider], &divider, 10);
@@ -128,89 +127,31 @@ std::getline(input, line);
 
 		printTime = printTime *60 + std::stoi(name, &divider, 10);
 	//	std::cout << "div is :"<<divider  << std::endl;
-		times(i, 0 ) = printTime;
+		data(i, featDim ) = printTime;
 
 		std::cout << "finnished obj TIME :"<<printTime  << std::endl;
 	
 	}
-	printf("5%ld %ld\n", (long)data.rows(), (long)data.cols());
+	alglib::linearmodel mod;
+	alglib::lrreport rep;
+	alglib::ae_int_t info = 0;
+std::cout << "builing model "<< std::endl;
 
-getArray(data, numbpoints, featDim);
+	alglib::lrbuild(data, numbpoints, featDim, info, mod, rep);
+	std::cout << "report:" << info <<std::endl;
+	alglib::real_1d_array coef;
+	coef.setlength(featDim+10);
+	std::cout<< "rms:" << lrrmserror(mod, data, numbpoints) << std::endl;
 
-	std::cout << "starting computation"  << std::endl;
-	alglib::real_2d_array partial;
-	partial.setlength(featDim, featDim);
-	// compute (xt*x)^-1 * xt *y
-	// partial = x * xt
-	alglib::rmatrixgemm(
-			featDim, featDim, numbpoints, 1, //dimmentions
-			data, 0, 0, 1,//xt input
-			data, 0 , 0, 0, // x input
-			0 , partial, 0 ,0);// output
-
-	std::cout << "multi 1 done"  << std::endl;
-	getArray(partial, featDim, featDim);
-	// partial = (xt*x)^-1  f * f 
-	alglib::ae_int_t code;
-	alglib::matinvreport rep;
-	std::cout << "prep done"  << std::endl;
-
-alglib::integer_1d_array pivots;
-//int max = numbpoints;
-//if(featDim > max) max = featDim;
-pivots.setlength(featDim);
-
-alglib::rmatrixlu(partial, featDim, featDim, pivots);
-
-	try
-  {
-    alglib::rmatrixluinverse(partial, pivots,  code, rep);
-  }
-  catch (alglib::ap_error e)
-  {
-    std::cout << "An exception occurred. Exception Nr. " << e.msg << '\n';
-  }
-  std::cout << "inverse done"<< " " <<code << std::endl;
-  alglib::real_2d_array test;
-	test.setlength(featDim, numbpoints);
-alglib::rmatrixgemm(
-			featDim, numbpoints, featDim, 1, //dimmentions
-			 partial, 0, 0, 0,//xt input
-			data, 0 , 0, 1, // x input
-			0 , test, 0 ,0);// output
-
-	
-	
-getArray(test, featDim, numbpoints);
-
-	std::cout << "checked inverse "<< std::endl;
-	getArray(partial, featDim, featDim);
-	alglib::real_2d_array steptwo;
-	steptwo.setlength(featDim, numbpoints);
-	alglib::rmatrixgemm(
-			featDim, numbpoints, featDim, 1, //dimmentions
-			partial, 0, 0, 0,//(x*xt)^-1 input
-			data, 0 , 0, 1, // xt input
-			0 , steptwo, 0 ,0);// output
-
-	std::cout << "multi 2 done"  << std::endl;
-	getArray(steptwo, featDim, numbpoints);
-
-	alglib::real_2d_array Wout;
-	Wout.setlength(featDim, 1);
-	rmatrixgemm(
-			featDim, 1, numbpoints, 1, //dimmentions
-			steptwo, 0, 0, 0,//x input
-			times, 0 , 0, 0, //times input
-			0 , Wout, 0 ,0);// output
-	std::cout << "multi 3 done"  << std::endl;
-	for( int i = 0; i < featDim; i++)
-		W[i] = Wout[i][0];
-
-
-	testArray(W, featDim, 1);
+	std::cout << "extracting terms "<< std::endl;
+	info = featDim+1;
+	alglib::lrunpack(mod, coef, info );
+		std::cout << "terms out"<< std::endl;
+	for(int i = 0; i < info; i++)
+		W[i] = coef[i];
 	educated = true;
 	//store in w
+	std::cout << "done "<< std::endl;
 	return 0;
 }
 int Predictor ::predict(std::string filename){
@@ -237,10 +178,10 @@ int Predictor ::predict(std::string filename){
 		out += feature.data[i]* W[i];
 		std::cout << feature.data[i] << " + ";
 	}
-	
+	out += W[featDim];
 	//matrixmult(W, features, &out, 1, featDim, 1);
 	//compute w * featrues 
-
+//testArray(W, featDim +1, 1);
 	//return it
 	return out;
 } 

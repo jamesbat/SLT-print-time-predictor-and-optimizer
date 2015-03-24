@@ -161,7 +161,7 @@ int FeatureFinder ::getFeatures(Objstats * stats, StlReader * reader){
 
 mystats.data[3] = suportVol;
 std::cout << " support vol:"<< suportVol ;
-   mystats.data[4] = 1;
+  // mystats.data[4] = 1;
 	* stats = mystats;
 	return 0;
 }
