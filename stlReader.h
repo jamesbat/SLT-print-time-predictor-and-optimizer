@@ -20,15 +20,24 @@ public:
 	float avenorm[3];
 	void print(void);
 };
-
+//each surface
 typedef float sur[12];//   //norm then 3 vertexes
 
 
 struct Objstats{
-	double surfaceArea; //mm^2
+	// surface area
+	// obj volume
+	// #layers
+	// support volume
+	// constant 
+	double data[5];
+
+	/*double surfaceArea; //mm^2
 	double volume; // mm^3
-	double raftArea;// mm^2
-	double layers; // # layers  
+	//double raftArea;// mm^2
+	double layers; // # layers 
+	double constant = 1; 
+	double */
 };
 
 struct StlTransform{

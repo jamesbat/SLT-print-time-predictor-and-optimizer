@@ -110,10 +110,13 @@ std::getline(input, line);
 	
 	//get features 	
 		finder.getFeatures(&feature, &reader);
-		data(i, 0)  = feature.surfaceArea;
-		data(i, 1)  = feature.volume;
+		for(int j = 0; j < featDim; j++)
+			data(i, j) = feature.data[j];
+		//data(i, 2)  = feature.surfaceArea;
+		//data(i, 1)  = feature.volume;
 		//data(i, 2)  = feature.raftArea;
-		data(i, 2)  = feature.layers;
+		//data(i, 0)  = feature.layers;
+	//	data(i, 3)  = feature.constant;
 		reader.close();
 
 	//parse out time 
@@ -152,16 +155,35 @@ getArray(data, numbpoints, featDim);
 	alglib::matinvreport rep;
 	std::cout << "prep done"  << std::endl;
 
+alglib::integer_1d_array pivots;
+//int max = numbpoints;
+//if(featDim > max) max = featDim;
+pivots.setlength(featDim);
+
+alglib::rmatrixlu(partial, featDim, featDim, pivots);
+
 	try
   {
-    alglib::rmatrixinverse(partial, code, rep);
+    alglib::rmatrixluinverse(partial, pivots,  code, rep);
   }
   catch (alglib::ap_error e)
   {
     std::cout << "An exception occurred. Exception Nr. " << e.msg << '\n';
   }
+  std::cout << "inverse done"<< " " <<code << std::endl;
+  alglib::real_2d_array test;
+	test.setlength(featDim, numbpoints);
+alglib::rmatrixgemm(
+			featDim, numbpoints, featDim, 1, //dimmentions
+			 partial, 0, 0, 0,//xt input
+			data, 0 , 0, 1, // x input
+			0 , test, 0 ,0);// output
+
 	
-	std::cout << "inverse done"<< code<< " " << std::endl;
+	
+getArray(test, featDim, numbpoints);
+
+	std::cout << "checked inverse "<< std::endl;
 	getArray(partial, featDim, featDim);
 	alglib::real_2d_array steptwo;
 	steptwo.setlength(featDim, numbpoints);
@@ -172,6 +194,8 @@ getArray(data, numbpoints, featDim);
 			0 , steptwo, 0 ,0);// output
 
 	std::cout << "multi 2 done"  << std::endl;
+	getArray(steptwo, featDim, numbpoints);
+
 	alglib::real_2d_array Wout;
 	Wout.setlength(featDim, 1);
 	rmatrixgemm(
@@ -201,14 +225,16 @@ int Predictor ::predict(std::string filename){
 	reader.restReading();
 	finder.getFeatures(&feature, &reader);
 	
-	float features[featDim];
-	features[0]  = feature.surfaceArea;
-	features[1]  = feature.volume;
+	//float features[featDim];
+	//features[2]  = feature.surfaceArea;
+	//features[1]  = feature.volume;
 		
-	features[2]  = feature.layers;
-
-	float out;
-	matrixmult(W, features, &out, 1, featDim, 1);
+	//features[0]  = feature.layers;
+//	features[3]  = feature.constant;
+	float out = 0.0;
+	for(int i = 0; i < featDim; i++)
+		out += feature.data[i]* W[i];
+	//matrixmult(W, features, &out, 1, featDim, 1);
 	//compute w * featrues 
 
 	//return it
@@ -287,10 +313,11 @@ std::getline(input, line);
 	 //R = 1- ssres  / sstot
 	//sstot = sum (yi - yave)^2
 	//ssres = sum (yi - prediced yi)^2
+	 std::cout << " real ~ predicted" << std::endl;
 	 for( int i = 0 ; i < numbpoints; i++){
 	 	ssTot += pow((times[i] - yave), 2 );
 	 	ssRes += pow(( times[i]- eTimes[i] ), 2 );
-	 	std::cout << times[i] << " ~ " << times[i]- eTimes[i]<< std::endl;
+	 	std::cout << times[i] << " ~ " << eTimes[i] << std::endl;
 	 }
 	 double R = 1 - ssTot/ ssRes;
 
