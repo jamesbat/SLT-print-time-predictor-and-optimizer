@@ -231,9 +231,13 @@ int Predictor ::predict(std::string filename){
 		
 	//features[0]  = feature.layers;
 //	features[3]  = feature.constant;
+	std::cout <<"  name:"<< filename << " + ";
 	float out = 0.0;
-	for(int i = 0; i < featDim; i++)
+	for(int i = 0; i < featDim; i++){
 		out += feature.data[i]* W[i];
+		std::cout << feature.data[i] << " + ";
+	}
+	
 	//matrixmult(W, features, &out, 1, featDim, 1);
 	//compute w * featrues 
 
@@ -250,7 +254,8 @@ int Predictor ::test(std::string filename){
 	//build build time and etime arrays
 		int numbpoints = 0;
 
-
+	double aveErr = 0.0;
+	double percentErr =0.0;
 	float printTime =0;
 	std::string line;
 	std::string name;
@@ -277,8 +282,10 @@ int Predictor ::test(std::string filename){
 	std::string front = "/home/accts/jcb97/proj/stls/data/";
 	std::string back = ".stl";
 //pull out first line with number of obj 
-std::getline(input, line);
+	std::getline(input, line);
 	int timeTotal = 0;
+	
+	 std::cout << " real ~ predicted" << std::endl;
 	for(int i = 0; i < numbpoints; i++){	
 	//parse each line
 		std::getline(input, line);
@@ -303,21 +310,27 @@ std::getline(input, line);
 
 		printTime = printTime *60 + std::stoi(name, &divider, 10);
 		times[i] = printTime;
-
+		std::cout << times[i] << " ~ " << eTimes[i] << std::endl;
 		timeTotal += printTime;
+		aveErr += abs(eTimes[i] - times[i]);
+		percentErr += abs(eTimes[i] - times[i])/ times[i];
 	
 	}
+	aveErr /= numbpoints;
+	percentErr /= numbpoints;
+	std::cout << std::endl;
+	std::cout << "average error:" << aveErr << " perecnt err:"<< percentErr << std::endl;
 	double yave = timeTotal / numbpoints;
 	 double ssTot = 0;
 	 double ssRes = 0;
 	 //R = 1- ssres  / sstot
 	//sstot = sum (yi - yave)^2
 	//ssres = sum (yi - prediced yi)^2
-	 std::cout << " real ~ predicted" << std::endl;
+	
 	 for( int i = 0 ; i < numbpoints; i++){
 	 	ssTot += pow((times[i] - yave), 2 );
 	 	ssRes += pow(( times[i]- eTimes[i] ), 2 );
-	 	std::cout << times[i] << " ~ " << eTimes[i] << std::endl;
+	 //	std::cout << times[i] << " ~ " << eTimes[i] << std::endl;
 	 }
 	 double R = 1 - ssTot/ ssRes;
 
