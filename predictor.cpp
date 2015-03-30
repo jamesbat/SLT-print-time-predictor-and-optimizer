@@ -161,18 +161,13 @@ int Predictor ::predict(std::string filename){
 	Objstats feature;
 	//open file 
 	std::ifstream input;
-	reader.openFile(filename, false);
+	reader.openFile(filename, false); 
 	reader.getStats();
 	reader.restReading();
 	finder.getFeatures(&feature, &reader);
 	
-	//float features[featDim];
-	//features[2]  = feature.surfaceArea;
-	//features[1]  = feature.volume;
-		
-	//features[0]  = feature.layers;
-//	features[3]  = feature.constant;
-	std::cout <<"  name:"<< filename << " + ";
+
+	//std::cout <<"  name:"<< filename << " + ";
 	float out = 0.0;
 	for(int i = 0; i < featDim; i++){
 		out += feature.data[i]* W[i];
@@ -241,7 +236,7 @@ int Predictor ::test(std::string filename){
 	//predict time
 		eTimes[i] = predict(front + name + back);
 		
-
+ 
 	//read time 
 	
 		printTime = std::stoi(&line[divider], &divider, 10);
@@ -251,7 +246,7 @@ int Predictor ::test(std::string filename){
 
 		printTime = printTime *60 + std::stoi(name, &divider, 10);
 		times[i] = printTime;
-		std::cout << times[i] << " ~ " << eTimes[i] << std::endl;
+		std::cout << "\t" << times[i] << " ~ " << eTimes[i] << std::endl;
 		timeTotal += printTime;
 		aveErr += abs(eTimes[i] - times[i]);
 		percentErr += abs(eTimes[i] - times[i])/ times[i];

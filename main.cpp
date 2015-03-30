@@ -42,10 +42,10 @@ int main(void)
   guesser.store("currentModel");
   double score = guesser.test("./data");
   std::cout <<" guesser got" << score << std::endl;
-  Predictor secondguesser;
-  secondguesser.read("currentModel");
-  score = secondguesser.test("./data");
-  std::cout <<" secondguesser got" << score << std::endl;
+  //Predictor secondguesser;
+  //secondguesser.read("currentModel");
+  //score = secondguesser.test("./data");
+  //std::cout <<" secondguesser got" << score << std::endl;
   /*
    float spin [3];
     int dim[3];

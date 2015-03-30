@@ -29,8 +29,9 @@ struct Objstats{
 	// obj volume
 	// #layers
 	// support volume
-	
-	double data[4];
+	// sharp corrners
+	//islands 
+	double data[6];
 
 	/*double surfaceArea; //mm^2
 	double volume; // mm^3
