@@ -36,7 +36,20 @@ int main(void)
 
 Optimizer optimizer;
 
+reader.openFile(basename + "data/3.stl", false);
+  reader.getStats();
+  reader.restReading();
 rot bestrot;
+optimizer.bestRotate(&reader, &bestrot);
+reader.openFile(basename + "data/4.stl", false);
+  reader.getStats();
+  reader.restReading();
+
+optimizer.bestRotate(&reader, &bestrot);
+reader.openFile(basename + "data/5.stl", false);
+  reader.getStats();
+  reader.restReading();
+
 optimizer.bestRotate(&reader, &bestrot);
 
 /* Predictor guesser;

@@ -196,7 +196,7 @@ int Predictor ::predictObj(StlReader * reader){
 	float out = 0.0;
 	for(int i = 0; i < featDim; i++){
 		out += feature.data[i]* W[i];
-		std::cout << feature.data[i] << " + ";
+		//std::cout << feature.data[i] << " + ";
 	}
 	out += W[featDim];
 

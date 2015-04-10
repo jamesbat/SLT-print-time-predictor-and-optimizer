@@ -8,7 +8,7 @@
 #include <stdlib.h>
 
 #define stable  .001
-#define epslon  .00001
+#define epslon  .0001
 #define PIE  3.14159265358979323846
 
 
@@ -19,8 +19,10 @@ void Optimizer ::bestRotate(StlReader * reader, rot * bestRot){
 	rot gradient;
 	rot bestCurRot;
 	float totalGrad;
-	int bestTime = 60 *2000;
+	int bestTime = 600 *2000;
 	int curTime;
+	curTime = pred.predictObj(reader);
+	printf("start at:%d\n", curTime);
 	for(int tries = 0; tries < this->numbTries; tries ++ ){
 		// rand gen a new rotation 
 		for(int i = 0 ; i < 3; i++)
@@ -29,10 +31,13 @@ void Optimizer ::bestRotate(StlReader * reader, rot * bestRot){
 		for(int steps = 0; steps < this->numbSteps; steps ++){
 			//get gardient
 			reader->setRotation(rotation);
+			reader->setDown(false);
 			curTime = pred.predictObj(reader);
 			for(int i = 0; i < 3; i++){
 				rotation [i] += epslon;
-				gradient[i] +=  alpha *(curTime - pred.predictObj(reader));
+				reader->setRotation(rotation);
+				reader->setDown(false);
+				gradient[i] +=  alpha *((curTime - pred.predictObj(reader)) / epslon);
 				rotation [i] -= epslon;
 			}
 			totalGrad = 0;
@@ -47,8 +52,9 @@ void Optimizer ::bestRotate(StlReader * reader, rot * bestRot){
 		if(curTime < bestTime){
 			for(int i = 0 ; i < 3; i++)
 				bestCurRot[i] = rotation[i];
-				bestTime = curTime;
 			printf("Moved from %d to %d \n", bestTime,curTime );
+				bestTime = curTime;
+			
 		}
 	}
 	for(int i = 0 ; i < 3; i++)

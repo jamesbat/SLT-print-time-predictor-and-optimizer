@@ -146,7 +146,7 @@ public:
 
 	std::string filename = "currentModel";
 	Optimizer(void){
-		this-> alpha = .01;
+		this-> alpha = .05;
 	this-> numbSteps = 100;
 	this->numbTries =5 ;
 	this-> filename = "currentModel";
