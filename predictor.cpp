@@ -108,6 +108,8 @@ std::getline(input, line);
 	//open file in reader
 		reader.openFile(front + name + back, false);
 		reader.getStats();
+
+		
 		reader.restReading();
 
 	

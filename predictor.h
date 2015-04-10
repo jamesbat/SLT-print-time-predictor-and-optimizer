@@ -1,5 +1,5 @@
 #include "stlReader.h"
-#define featDim 6
+#define featDim 4
 //the dimention of the featur vector
 
 

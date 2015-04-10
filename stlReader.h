@@ -111,9 +111,17 @@ public:
 
 	
 };  
+struct surextrema{
+  
+  sur body;
+  float max;
+  float min;
+};
+
 
 
 class FeatureFinder{
+	void Slice( surextrema surfaces[], int numbsurface, Objstats * stats, float top );
 public:
 	float layerThickness = .2;
 	int getFeatures(Objstats * stats, StlReader * reader);
