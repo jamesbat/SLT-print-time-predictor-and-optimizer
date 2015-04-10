@@ -127,9 +127,32 @@ public:
 	int getFeatures(Objstats * stats, StlReader * reader);
 };
 
+
+
+typedef float rot[3];
+
+
 void matrixmult (float * A , float * B, float * C, int n, int p, int m );
 
+class Optimizer{
+public:
+	void ping(void){return;}
+	void bestRotate(StlReader * reader, rot * bestRot);
+	float alpha = .01;
+	int numbSteps = 100;
+	int numbTries =5 ;
+	float oldTime;
+	float bestTime;
 
+	std::string filename = "currentModel";
+	Optimizer(void){
+		this-> alpha = .01;
+	this-> numbSteps = 100;
+	this->numbTries =5 ;
+	this-> filename = "currentModel";
+	}
+
+};
 
 
 #endif

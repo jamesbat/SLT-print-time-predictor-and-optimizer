@@ -109,7 +109,7 @@ std::getline(input, line);
 		reader.openFile(front + name + back, false);
 		reader.getStats();
 
-		
+
 		reader.restReading();
 
 	
@@ -182,6 +182,28 @@ int Predictor ::predict(std::string filename){
 	//return it
 	return out;
 } 
+int Predictor ::predictObj(StlReader * reader){
+
+	if(! educated) return -1;
+
+	Objstats feature;
+	reader->getStats();
+	reader->restReading();
+	finder.getFeatures(&feature, reader);
+	
+
+	//std::cout <<"  name:"<< filename << " + ";
+	float out = 0.0;
+	for(int i = 0; i < featDim; i++){
+		out += feature.data[i]* W[i];
+		std::cout << feature.data[i] << " + ";
+	}
+	out += W[featDim];
+
+	//return it
+	return out;
+} 
+
 
 int Predictor ::test(std::string filename){
 	if(! educated) return -1;

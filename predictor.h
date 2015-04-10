@@ -13,5 +13,7 @@ public:
 	int test(std::string filename);
 	void store(std::string filename);
 	void read(std::string filename);
-	int predict(std::string filename); 
+	int predict(std::string filename);
+	int predictObj(StlReader * read);
+ 
 };

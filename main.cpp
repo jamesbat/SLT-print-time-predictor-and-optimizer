@@ -26,22 +26,26 @@ int main(void)
    std::string basename = "/home/accts/jcb97/proj/stls/";
 
 
-  /*reader.openFile(basename + "data/9.stl", false);
+  reader.openFile(basename + "data/9.stl", false);
   reader.getStats();
   reader.restReading();
  Objstats stats;
   FeatureFinder finder; 
   finder.getFeatures( &stats, &reader);
-   reader.restReading();*/
+   reader.restReading();
 
+Optimizer optimizer;
 
- Predictor guesser;
+rot bestrot;
+optimizer.bestRotate(&reader, &bestrot);
+
+/* Predictor guesser;
   guesser.learnFrom("./data");
   int buildtime =  guesser.predict("/home/accts/jcb97/proj/stls/data/57.stl");
   std::cout << " got :" << buildtime << "to print 57"<< std::endl;
   guesser.store("currentModel");
   double score = guesser.test("./data");
-  std::cout <<" guesser got" << score << std::endl;
+  std::cout <<" guesser got" << score << std::endl;*/
   //Predictor secondguesser;
   //secondguesser.read("currentModel");
   //score = secondguesser.test("./data");
