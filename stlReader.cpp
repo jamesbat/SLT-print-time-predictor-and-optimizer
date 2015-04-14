@@ -183,9 +183,9 @@ int StlReader ::setDown(bool curstats){
 
 	this->transform.active = true;
 //	printArray(this->stats.extrema, 3,3);
-	this->transform.trans[0] = (this->stats.extrema[0]+ this->stats.extrema[1])/-2.0;
-	this->transform.trans[1] = (this->stats.extrema[2]+ this->stats.extrema[3])/-2.0;
-	this->transform.trans[2] = this->stats.extrema[4]* -1.0;
+	this->transform.trans[0] += (this->stats.extrema[0]+ this->stats.extrema[1])/-2.0;
+	this->transform.trans[1] += (this->stats.extrema[2]+ this->stats.extrema[3])/-2.0;
+	this->transform.trans[2] += this->stats.extrema[4]* -1.0;
 	
 	//this->restReading();
 	//this->getStats();

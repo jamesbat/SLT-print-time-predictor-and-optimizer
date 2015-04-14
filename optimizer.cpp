@@ -58,7 +58,7 @@ void Optimizer ::bestRotate(StlReader * reader, rot * bestRot){
 		}
 	}
 	for(int i = 0 ; i < 3; i++)
-	 * bestRot[i] = rotation[i];
+	 * bestRot[i] = bestCurRot[i];
 printf("Final time %d \n", bestTime );
 	return;
 } 

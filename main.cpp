@@ -20,7 +20,7 @@ void pingArray(float * A, int row, int col){
 
 int main(void)
 {
-
+  srand(123456789);
   std::cout << "Hello World!" << std::endl;
   StlReader reader;
    std::string basename = "/home/accts/jcb97/proj/stls/";
@@ -33,32 +33,33 @@ int main(void)
   FeatureFinder finder; 
   finder.getFeatures( &stats, &reader);
    reader.restReading();
-
+/*
 Optimizer optimizer;
 
-reader.openFile(basename + "data/3.stl", false);
+reader.openFile(basename + "data/6.stl", false);
   reader.getStats();
   reader.restReading();
 rot bestrot;
 optimizer.bestRotate(&reader, &bestrot);
-reader.openFile(basename + "data/4.stl", false);
+reader.openFile(basename + "data/7.stl", false);
   reader.getStats();
   reader.restReading();
 
 optimizer.bestRotate(&reader, &bestrot);
-reader.openFile(basename + "data/5.stl", false);
+reader.openFile(basename + "data/8.stl", false);
   reader.getStats();
   reader.restReading();
 
 optimizer.bestRotate(&reader, &bestrot);
-
-/* Predictor guesser;
+*/
+ Predictor guesser;
   guesser.learnFrom("./data");
   int buildtime =  guesser.predict("/home/accts/jcb97/proj/stls/data/57.stl");
   std::cout << " got :" << buildtime << "to print 57"<< std::endl;
   guesser.store("currentModel");
-  double score = guesser.test("./data");
-  std::cout <<" guesser got" << score << std::endl;*/
+  double score = guesser.test("./test");
+  std::cout <<" guesser got" << score << std::endl;
+  
   //Predictor secondguesser;
   //secondguesser.read("currentModel");
   //score = secondguesser.test("./data");

@@ -4,7 +4,7 @@
 #include <cmath>
 #include <unordered_map>
  //floors with lower angles must be supported 
-#define suportAngle (40* 3.141592 / 180)
+#define suportAngle (45* 3.141592 / 180)
 #define next(a) (((a+1)%3)+1)
 #define leaffill 4 //number of segment pointers that can be stored in a leaf node
 
@@ -13,7 +13,7 @@
 #define invalidLoc -1000
 
 //need to add tetrahedron top for the volume calculation
-
+ 
 //surface with its max and min z 
 
 //claculate cross product
@@ -373,6 +373,9 @@ int FeatureFinder ::getFeatures(Objstats * stats, StlReader * reader){
 //	std::cout << " layers:"<< mystats.data[2]<< "\t" ;
 
 mystats.data[3] = suportVol;
+if(suportVol < 0 ) printf("ff suport error");
+if(VolTotal < 0 ) printf("ff vol error");
+if(areaTotal < 0 ) printf("ff area error");
 //std::cout << " support vol:"<< suportVol << "\t";
 //std::cout << " corrners:"<< stats->data[4] << "\t";
 //std::cout << " islands:"<< stats->data[5] << "\t";

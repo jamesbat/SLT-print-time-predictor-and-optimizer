@@ -127,11 +127,11 @@ std::getline(input, line);
 		divider = line.find(':', 0 );//then minutes 
 		name = line.substr(divider +1, line.length() - divider -1 );
 
-		printTime = printTime *60 + std::stoi(name, &divider, 10);
+		printTime = printTime + std::stoi(name, &divider, 10);
 	//	std::cout << "div is :"<<divider  << std::endl;
 		data(i, featDim ) = printTime;
 
-		std::cout << "finnished obj TIME :"<<printTime  << std::endl;
+		//std::cout << "finnished obj TIME :"<<printTime  << std::endl;
 	
 	}
 	alglib::linearmodel mod;
@@ -173,12 +173,10 @@ int Predictor ::predict(std::string filename){
 	float out = 0.0;
 	for(int i = 0; i < featDim; i++){
 		out += feature.data[i]* W[i];
-		std::cout << feature.data[i] << " + ";
+		printf("%g + ", feature.data[i] );
 	}
 	out += W[featDim];
-	//matrixmult(W, features, &out, 1, featDim, 1);
-	//compute w * featrues 
-//testArray(W, featDim +1, 1);
+	if(out <0) printf("predicor error\n");
 	//return it
 	return out;
 } 
@@ -199,7 +197,7 @@ int Predictor ::predictObj(StlReader * reader){
 		//std::cout << feature.data[i] << " + ";
 	}
 	out += W[featDim];
-
+	if(out <0) printf("predicor obj error\n");
 	//return it
 	return out;
 } 
@@ -268,9 +266,9 @@ int Predictor ::test(std::string filename){
 		divider = line.find(':', 0 );//then minutes 
 		name = line.substr(divider +1, line.length() - divider -1 );
 
-		printTime = printTime *60 + std::stoi(name, &divider, 10);
+		printTime = printTime + std::stoi(name, &divider, 10);
 		times[i] = printTime;
-		std::cout << "\t" << times[i] << " ~ " << eTimes[i] << std::endl;
+		printf("\t%g ~ %g\n", times[i], eTimes[i] );
 		timeTotal += printTime;
 		aveErr += abs(eTimes[i] - times[i]);
 		percentErr += abs(eTimes[i] - times[i])/ times[i];
@@ -278,6 +276,7 @@ int Predictor ::test(std::string filename){
 	}
 	aveErr /= numbpoints;
 	percentErr /= numbpoints;
+	percentErr *= 100;
 	std::cout << std::endl;
 	std::cout << "average error:" << aveErr << " perecnt err:"<< percentErr << std::endl;
 	double yave = timeTotal / numbpoints;
