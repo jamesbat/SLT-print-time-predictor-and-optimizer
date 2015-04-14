@@ -173,7 +173,7 @@ int Predictor ::predict(std::string filename){
 	float out = 0.0;
 	for(int i = 0; i < featDim; i++){
 		out += feature.data[i]* W[i];
-		printf("%g + ", feature.data[i] );
+		printf("%g\t\t", feature.data[i] );
 	}
 	out += W[featDim];
 	if(out <0) printf("predicor error\n");
@@ -243,7 +243,7 @@ int Predictor ::test(std::string filename){
 	std::getline(input, line);
 	int timeTotal = 0;
 	
-	 std::cout << " real ~ predicted" << std::endl;
+	 printf("surf area       obj vol       layers        sup vol        real~predicted\n");
 	for(int i = 0; i < numbpoints; i++){	
 	//parse each line
 		std::getline(input, line);

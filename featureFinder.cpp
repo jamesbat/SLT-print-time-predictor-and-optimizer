@@ -260,11 +260,14 @@ int FeatureFinder ::getFeatures(Objstats * stats, StlReader * reader){
 	float crossProd[3];
 	float A[3];
   float B[3];
-	double VolTotal = 0;
+  float C[3];
+	double VolTotal = 0.0;
 	double areaTotal = 0.0;
-	double partial = 0;
+	double partial = 0.0;
   double suportVol = 0.0;
   double suportthreshold =  cos(suportAngle);
+  float tetCorrner[3];
+
 
  StlStats filestats = reader->stats;
   // list <extremaSur> surMinZ;
@@ -295,7 +298,7 @@ int FeatureFinder ::getFeatures(Objstats * stats, StlReader * reader){
       for(int dim =0; dim< 3; dim++){
         for(int vert = 0; vert < 3 ; vert++ )
           centroid[dim] += cur[(vert +1)*3 + dim];
-        centroid[dim] /= 6.0;
+        centroid[dim] /= 4.0;
         normsum += cur[dim] *  centroid[dim];
       }
 
@@ -321,7 +324,35 @@ int FeatureFinder ::getFeatures(Objstats * stats, StlReader * reader){
       //if(cur[2] < 0){
         //needs suport 
         //upper tetrahedron
-        
+        //abs( (a -D) * ((B -D) x (c - D))) /6
+        //work in from  right to left
+        //build 4 point direfctly below the highest point
+        for(int i = 0; i < 3; i ++)
+          if(cur[(i +1) *3 + 2 ] == maxZ){
+            for(int j = 0; j < 2; j++)
+              tetCorrner[j] = cur[(i +1) *3 +j];
+            break;
+          }
+        //dorp down 
+        tetCorrner[2] = minZ;
+
+        for(int i = 0; i < 3; i ++){
+          //((B -D) x (c - D))
+          A[i] = cur[2 *3 + i] - tetCorrner[i];
+          B[i] = cur[3 *3 + i] - tetCorrner[i];
+        }
+
+        cross(A, B, C);
+        partial = 0.0;
+        for(int i = 0; i < 3; i ++){
+          //(a -D) * ((B -D) x (c - D))
+          A[i] = cur[1 *3 + i] - tetCorrner[i];
+          partial += A[i] * C[i];
+        }
+
+       
+        suportVol += abs(partial)/6;
+
         //body trangulat solid 
         double area = 0.0;
         for(int j = 0; j < 3; j++){
@@ -334,6 +365,8 @@ int FeatureFinder ::getFeatures(Objstats * stats, StlReader * reader){
         suportVol += area * minZ;
       }
 
+
+
   //surface area 
   		//get two border vectors 
   		for(int i =0 ; i < 3 ; i++){
@@ -344,12 +377,12 @@ int FeatureFinder ::getFeatures(Objstats * stats, StlReader * reader){
   		cross(A, B , crossProd); 
   		//square componants add each take sqrt 
   		for(int i = 0 ; i < 3; i++)
-  			crossProd[i] = abs(crossProd[i]);
+  			crossProd[i] = pow(crossProd[i], 2);
   		partial = 0;
   		for(int i = 0 ; i < 3; i++)
   			partial += crossProd[i];
   		//devide by 2 
-  			areaTotal += partial/2;
+  			areaTotal += sqrt(partial)/2;
 
      //add surface to list for building slice
 //        for(int i = 0; i < 12; i++) 
