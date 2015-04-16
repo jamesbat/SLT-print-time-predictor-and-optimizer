@@ -30,7 +30,7 @@ struct Objstats{
 	// #layers
 	// support volume
 	// sharp corrners
-	//islands 
+	// # islands 
 	double data[6];
 
 	/*double surfaceArea; //mm^2

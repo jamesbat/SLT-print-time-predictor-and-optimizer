@@ -69,114 +69,68 @@ float angle(float * v1, float * v2, int size){
   return top / n1;
 }
 
-void intersect(float * A, float * B, float level, float * C){
+void intersect(float * A, float * B, float level, float * C, float * push){
   //finds intersection point between vector A -> B and Z = level plane 
   //store x and y cordinates in C 
-  float deltaZ = ( level - A[2]) / (B[2] - A[2]);
-  C[0] = (B[0] - A[0]) * deltaZ; 
-  C[1] = (B[1] - A[1]) * deltaZ; 
+  double deltaZ = ( level - A[2] ) / (B[2] - A[2] );
+  //if(deltaZ == 0) printf("zero error\n\n");
+  //if(deltaZ > std::numeric_limits<float>::max()) printf("inf error\n\n");
+  C[0] = push[0] + A[0] + (B[0] - A[0]) * deltaZ; 
+  C[1] = push[1] + A[1] + (B[1] - A[1]) * deltaZ; 
 
 }
 
 
-int insert(float * cur, float * corners, edgeHash slice, int numbCorner, int * sharpegde ){
+int insert(float * cur, float * corners, edgeHash * Slice, int numbCorner, int * sharpegde ){
+  edgeHash slice = * Slice;
   //return the number of added corrners
   //cur is lenght 4 first point is loc to be added second is other side
-  std::pair<float, float> temp = std::make_pair(roundf(cur[0]), roundf(cur[1])) ; 
- // printf("%f %f ____", temp.first, temp.second);
+  std::pair<float, float> temp = std::make_pair(cur[0], cur[1]) ; 
+   // printf("%f %f ____", temp.first, temp.second);
    // printf("%f %f %f %f _____\n", cur[0], cur[1], cur[2], cur[3] );
   if(0 == slice.count(temp) ){
   //first time this point inserted 
-     printf("# ");
-    slice.emplace(temp,numbCorner);
+   //  printf("# ");
+   
+       slice.emplace(temp,numbCorner);
     for(int i = 0 ; i < 2; i++){  
-      corners[i + numbCorner *4] = cur[i + 2];
-      corners[2+ i + numbCorner *4]= invalidLoc;
+      corners[i + (numbCorner *4)] = cur[i + 2];
+      corners[2+ i + (numbCorner *4)]= invalidLoc;
     }
-   if(0 == slice.count(temp) )printf("insert failed\n");
+  // if(0 == slice.count(temp)||0 == slice.at(temp)  )printf("insert failed\n");
+  
+    * Slice = slice;
    return 1; //new corner added 
   }else{
-     printf("@ ");
-    int curCorner = slice[temp];
-    if(corners[curCorner*4 +2 ] != invalidLoc ){
+  
+    int curCorner = slice.at(temp);
+    if(corners[curCorner*4 +2 ] == invalidLoc ){
+      //   printf("@ ");
         //second point inserted 
         //check sharp angle 
-      corners[curCorner*4 +2 ] = cur[0];
-      corners[curCorner*4 +3 ] = cur[1];
+      corners[curCorner*4 +2 ] = cur[3];
+      corners[curCorner*4 +3 ] = cur[4];
       float v1[2];
       float v2[2];
       for(int i = 0; i < 2; i++){
         v1[i]= cur[i] - cur[i+2];
         v2[i]= cur[i] - corners[curCorner*4 + i];
       }
-      if( fabs(angle(v1, v2, 2) ) > fabs(cos(cornerAngle))) * sharpegde = *sharpegde +1;
-      printf("_  %f_%f ",angle(v1, v2, 2) , cos(cornerAngle)  );
+      if( fabs(angle(v1, v2, 2) ) > fabs(cos(cornerAngle)) ) * sharpegde = *sharpegde +1;
+     // printf("_  %f_%f ",angle(v1, v2, 2) , cos(cornerAngle)  );
 
-    }else //three lines at 1 corrner
-      printf("ERROR \n");
+    }else{ //three lines at 1 corrner
+      printf(" triple intersect ERROR %d %d  %g  %g\n", curCorner, (int) slice.size(), cur[0], cur[1] );
+    }
   }
+   * Slice = slice;
     return 0;
 }
 
 
 
+void circleIslands(int numbcorners, edgeHash slice, float * corners, float * numbIslands){
 
-
-//slice the object and get number of islands and number of corners 
-void FeatureFinder ::Slice( surextrema surfaces[], int numbsurface, Objstats * stats, float top ){
-  printf("entering slice %f layers\n", top / this->layerThickness);
- // float numbcorners = 0;
-  int sharpCorners = 0;
-  float numbIslands = 0;
-
-  for(float level = top; level > -0.1; level = level -this->layerThickness){//per slice
-    float corners [numbsurface *4];
-    int numbcorners = 0;
-    edgeHash slice;
-  //for each slice add intersecting lines add them to hashtable in 2 locations with endpoint and first/ second pars
-   //find corners when inserting
-   
-    for(int surfnumb = 0; surfnumb < numbsurface; surfnumb++){
-    //it intersects 
-      if(surfaces[surfnumb].max >= level && surfaces[surfnumb].min <= level){
-        float cur[4];
- 
-        //find endpoints of segment 
-     
-        
-        sur tri;
-        for(int j = 0; j < 12; j++)
-           tri[j] = surfaces[surfnumb].body[j];
-          int above[2];
-          int below [2];
-          int toptotal = 0;
-          for(int j = 1; j < 4; j++)
-            if(tri[j*3 + 2] > level){
-             above[toptotal] = j;
-             toptotal ++;
-           }
-            else below[j - 1 -  toptotal] = j;
-
-          intersect ( &tri[above[0]], &tri[below[0]], level, cur);
-          if(toptotal > 1) intersect ( &tri[above[1]], &tri[below[0]], level, &cur[2]);
-          else intersect ( &tri[above[0]], &tri[below[1]], level, &cur[2]);
-          
-        
-      
-        //now insert this edge at both endpoints 
-        numbcorners += insert(cur, corners, slice, numbcorners, &sharpCorners);
-        float temp[4];
-        for(int i = 0; i < 2; i++){
-          temp[i] = cur[i + 2];
-          temp[i +2] = cur[i ];
-        }
-        numbcorners += insert(temp, corners, slice, numbcorners, &sharpCorners);
-     
-      }//end proccessing of intersecting surfacee
-    }//end processing of 1 surface
-  //circle to get island number 
-  //walk throught segments that make cycles 
- 
   int searchStart = 0;
   bool visited[numbcorners];
   std::pair<float, float> old ;
@@ -186,7 +140,7 @@ void FeatureFinder ::Slice( surextrema surfaces[], int numbsurface, Objstats * s
   int left; 
   int right;
 
-  std::cout << " slice corners:"<< numbcorners << "\t" << numbIslands<< "\t";
+ // std::cout << " slice corners:"<< numbcorners << "\t" << *numbIslands<< "\t";
   while(searchStart < numbcorners ){
     pos = searchStart;
     
@@ -216,33 +170,102 @@ void FeatureFinder ::Slice( surextrema surfaces[], int numbsurface, Objstats * s
          next = std::make_pair(corners[pos * 4] , corners[pos * 4 +1]);
       if(corners[pos * 4 +2] != old.first && corners[pos * 4 +3] != old.second )
          next = std::make_pair(corners[pos * 4 +2] , corners[pos * 4 +3]);
-       old = current;
-       current = next;
-       pos = slice[current];
-      
-    }
-    numbIslands ++; 
-    while(true == visited[searchStart] && searchStart < numbcorners) {
-      searchStart ++;   
-      
-    }
-   
+      old = current;
+      current = next;
+      pos = slice[current];
     
+    }
+    *numbIslands = * numbIslands +1; 
+    while(true == visited[searchStart] && searchStart < numbcorners) {
+      searchStart ++;  
+    }
   }
+ 
+}
 
-std::cout << numbIslands << std::endl;
+
+
+
+//slice the object and get number of islands and number of corners 
+void FeatureFinder ::Slice( surextrema surfaces[], int numbsurface, Objstats * stats, float top ){
+    
+  printf("entering slice %f layers  %d surfaces\n", top / this->layerThickness, numbsurface);
+ // float numbcorners = 0;
+  int sharpCorners = 0;
+  float numbIslands = 0;
+  float * corners = (float *) malloc(sizeof(float)*numbsurface *4 *2);
+
+  for(float level = top; level > -0.1; level = level -this->layerThickness){//per slice
+  
+    for( int i = 0 ; i < numbsurface *4*2; i++)
+      corners[i] = invalidLoc;
+ 
+    int numbcorners = 0;
+    edgeHash slice;
+    edgeHash * Slice = &slice;
+  //for each slice add intersecting lines add them to hashtable in 2 locations with endpoint and first/ second pars
+   //find corners when inserting
+
+    for(int surfnumb = 0; surfnumb < numbsurface; surfnumb++){
+    //it intersects 
+      if(surfaces[surfnumb].max > level && surfaces[surfnumb].min < level){
+        float cur[4];
+ 
+        //find endpoints of segment 
+     
+  
+        sur tri;
+        for(int j = 0; j < 12; j++){
+           tri[j] = surfaces[surfnumb].body[j];
+     //     printf("%g  ", tri[j]);
+        }
+      //  printf("\n");
+        int above[2];
+        int below [2];
+        int toptotal = 0;
+        for(int j = 1; j < 4; j++){
+          if(tri[j*3 + 2] >= level){
+           above[toptotal] = j*3;
+           toptotal ++;
+          }
+          else below[j - 1 -  toptotal] = j*3;
+        }
+   //   printf("%d  %d  %d  %d  %d  \n", toptotal, above[0], above[1], below[0], below[1]);
+          intersect ( &tri[above[0]], &tri[below[0]], level, cur, tri);
+          if(toptotal > 1) intersect ( &tri[above[1]], &tri[below[0]], level, &cur[2], tri);
+          else intersect ( &tri[above[0]], &tri[below[1]], level, &cur[2], tri);
+          
+        
+        if((cur[0] != cur[2] ) && cur[1] != cur[3]){
+        //now insert this edge at both endpoints 
+          numbcorners += insert(cur, corners, Slice, numbcorners, &sharpCorners);
+          float temp[4];
+          for(int i = 0; i < 2; i++){
+            temp[i] = cur[i + 2];
+            temp[i +2] = cur[i ];
+          }
+          numbcorners += insert(temp, corners, Slice, numbcorners, &sharpCorners);
+    //    std::pair<float, float> blarg = std::make_pair(cur[0], cur[1]) ; 
+      //  if(0 == (Slice)->at(blarg)  && 0 != (Slice)->count(blarg)) printf("outside error");
+      //  printf("%d\n",(int) Slice->size());
+        }
+      }//end proccessing of intersecting surfacee
+    }//end processing of 1 surface
+   
+  //circle to get island number 
+  //walk throught segments that make cycles 
+//circle the cegments to find the number of islands  
+    circleIslands(numbcorners, slice, corners,  &numbIslands);
+
+   // std::cout << numbIslands << std::endl;
  
 
-  //for each floor that intersects adds the triangle or trapazod to suport set
-  //put object into 2d tree
-  //use tree to prune support 
-    //where lines intersect 
-  //get support volume
     slice.clear();
-  
+    
   }//end processing of one slice
-  std::cout << " ended slice" << "\t";
-std::cout << " corrners:"<< sharpCorners << "\t";
+  free(corners);
+ // std::cout << " ended slicing" << "\t";
+  //std::cout << " sharp corrners:"<< sharpCorners << "\n";
 
   stats->data[4] = sharpCorners;
   stats->data[5] = numbIslands;
@@ -273,7 +296,7 @@ int FeatureFinder ::getFeatures(Objstats * stats, StlReader * reader){
   // list <extremaSur> surMinZ;
  // list <extremaSur> surMaxZ;
 
- // surextrema * surfaces = ( surextrema *) malloc (filestats.numbsurface * sizeof(surextrema) );
+  surextrema * surfaces = ( surextrema *) malloc (filestats.numbsurface * sizeof(surextrema) );
   
 	sur cur;
   reader->restReading();
@@ -385,18 +408,19 @@ int FeatureFinder ::getFeatures(Objstats * stats, StlReader * reader){
   			areaTotal += sqrt(partial)/2;
 
      //add surface to list for building slice
-//        for(int i = 0; i < 12; i++) 
-//          surfaces[surfnumb].body[i] = cur[i];
-//          surfaces[surfnumb].min = minZ;
-//          surfaces[surfnumb].max = maxZ;
+        for(int i = 0; i < 12; i++) 
+          surfaces[surfnumb].body[i] = cur[i];
+          surfaces[surfnumb].min = minZ;
+          surfaces[surfnumb].max = maxZ;
        
     
 	}
 
- // Slice(surfaces, (reader)->stats.numbsurface, stats,  (reader)->stats.extrema[5]);
+  Slice(surfaces, (reader)->stats.numbsurface, stats,  (reader)->stats.extrema[5]);
  // //at very end get raft volume
 
-//free(surfaces);
+  free(surfaces);
+
   mystats.data[0] = areaTotal;
 //  std::cout << "  area :"<< areaTotal ;
   mystats.data[1] = VolTotal;
@@ -406,12 +430,14 @@ int FeatureFinder ::getFeatures(Objstats * stats, StlReader * reader){
 //	std::cout << " layers:"<< mystats.data[2]<< "\t" ;
 
 mystats.data[3] = suportVol;
+mystats.data[4] = stats->data[4];
+mystats.data[5] = stats->data[5];
 if(suportVol < 0 ) printf("ff suport error");
 if(VolTotal < 0 ) printf("ff vol error");
 if(areaTotal < 0 ) printf("ff area error");
 //std::cout << " support vol:"<< suportVol << "\t";
 //std::cout << " corrners:"<< stats->data[4] << "\t";
-//std::cout << " islands:"<< stats->data[5] << "\t";
+//std::cout << " islands:"<< stats->data[5] << "\n";
   // mystats.data[4] = 1;
 	* stats = mystats;
 	return 0;

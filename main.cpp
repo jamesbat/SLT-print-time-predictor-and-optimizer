@@ -29,9 +29,9 @@ int main(void)
   reader.openFile(basename + "data/9.stl", false);
   reader.getStats();
   reader.restReading();
- Objstats stats;
+// Objstats stats;
   FeatureFinder finder; 
-  finder.getFeatures( &stats, &reader);
+  //finder.getFeatures( &stats, &reader);
    reader.restReading();
 /*
 Optimizer optimizer;
@@ -54,11 +54,12 @@ optimizer.bestRotate(&reader, &bestrot);
 */
  Predictor guesser;
   guesser.learnFrom("./data");
-  int buildtime =  guesser.predict("/home/accts/jcb97/proj/stls/data/57.stl");
-  std::cout << " got :" << buildtime << "to print 57"<< std::endl;
+ // guesser.read("currentModel");
+  //int buildtime =  guesser.predict("/home/accts/jcb97/proj/stls/data/9.stl");
+  //std::cout << "\n got :" << buildtime << " to print 1"<< std::endl;
   guesser.store("currentModel");
-  double score = guesser.test("./test");
-  std::cout <<" guesser got" << score << std::endl;
+ // double score = guesser.test("./test");
+ // std::cout <<" guesser got" << score << std::endl;
   
   //Predictor secondguesser;
   //secondguesser.read("currentModel");
@@ -76,8 +77,7 @@ optimizer.bestRotate(&reader, &bestrot);
     std::string curname = basename+ std::to_string(i) +".stl";
     reader.openFile(curname, false);
     std::cout << curname << std::endl;
-    for(int rot = 0; rot < 4; rot ++){
-
+    for(int rot = 0; rot < 4; rot ++){1
       for(int j = 0; j <3; j++ )
       {
         if(rot != 0) spin[j] = rand() * PI;
