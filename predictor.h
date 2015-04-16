@@ -1,5 +1,5 @@
 #include "stlReader.h"
-#define featDim 6
+#define featDim 4
 //the dimention of the featur vector
 
 
@@ -13,7 +13,7 @@ public:
 	int test(std::string filename);
 	void store(std::string filename);
 	void read(std::string filename);
-	int predict(std::string filename);
-	int predictObj(StlReader * read);
+	float predict(std::string filename);
+	float predictObj(StlReader * read, bool rot);
  
 };

@@ -416,7 +416,7 @@ int FeatureFinder ::getFeatures(Objstats * stats, StlReader * reader){
     
 	}
 
-  Slice(surfaces, (reader)->stats.numbsurface, stats,  (reader)->stats.extrema[5]);
+//  Slice(surfaces, (reader)->stats.numbsurface, stats,  (reader)->stats.extrema[5]);
  // //at very end get raft volume
 
   free(surfaces);
@@ -432,6 +432,128 @@ int FeatureFinder ::getFeatures(Objstats * stats, StlReader * reader){
 mystats.data[3] = suportVol;
 mystats.data[4] = stats->data[4];
 mystats.data[5] = stats->data[5];
+if(suportVol < 0 ) printf("ff suport error %g\n", suportVol);
+if(VolTotal < 0 ) printf("ff vol error %g\n", VolTotal);
+if(areaTotal < 0 ) printf("ff area error %g\n", areaTotal);
+//std::cout << " support vol:"<< suportVol << "\t";
+//std::cout << " corrners:"<< stats->data[4] << "\t";
+//std::cout << " islands:"<< stats->data[5] << "\n";
+  // mystats.data[4] = 1;
+	* stats = mystats;
+	return 0;
+}
+ 
+
+
+ int FeatureFinder ::rotFeatures(Objstats * stats, StlReader * reader){
+  Objstats mystats;
+printf("---");
+ 
+  float A[3];
+  float B[3];
+  float C[3];
+  double VolTotal = 0.0;
+  double areaTotal = 0.0;
+  double partial = 0.0;
+  double suportVol = 0.0;
+  double suportthreshold =  cos(suportAngle);
+  float tetCorrner[3];
+  //double suportthreshold =  cos(suportAngle);
+
+
+
+ StlStats filestats = reader->stats;
+  // list <extremaSur> surMinZ;
+ // list <extremaSur> surMaxZ;
+
+  //surextrema * surfaces = ( surextrema *) malloc (filestats.numbsurface * sizeof(surextrema) );
+  
+  sur cur;
+  reader->restReading();
+ 
+
+  for(uint32_t surfnumb = 0; surfnumb < filestats.numbsurface; surfnumb++){
+    (reader)->getSurface(cur);
+      double minZ = cur[1*3 +2 ];
+      double maxZ = cur[1*3 +2 ];
+      for(int i =1 ; i< 4; i++){
+          if(cur[i*3 +2] < minZ) minZ = cur[i*3 +2];
+          if(cur[i*3 +2] > maxZ) maxZ = cur[i*3 +2];
+      }
+    //suport volume
+      //if suportAngle betwen the xy and surface < suportAngle 
+      double dot = 0.0;
+      for( int i =0; i < 3; i++)
+          dot += pow(cur[i], 2);
+      dot = sqrt(dot);
+      dot = cur[2] / dot;
+      if(abs(dot) <= suportthreshold && cur[2] < 0){
+      //if(cur[2] < 0){
+        //needs suport 
+        //upper tetrahedron
+        //abs( (a -D) * ((B -D) x (c - D))) /6
+        //work in from  right to left
+        //build 4 point direfctly below the highest point
+        for(int i = 0; i < 3; i ++)
+          if(cur[(i +1) *3 + 2 ] == maxZ){
+            for(int j = 0; j < 2; j++)
+              tetCorrner[j] = cur[(i +1) *3 +j];
+            break;
+          }
+        //dorp down 
+        tetCorrner[2] = minZ;
+
+        for(int i = 0; i < 3; i ++){
+          //((B -D) x (c - D))
+          A[i] = cur[2 *3 + i] - tetCorrner[i];
+          B[i] = cur[3 *3 + i] - tetCorrner[i];
+        }
+
+        cross(A, B, C);
+        partial = 0.0;
+        for(int i = 0; i < 3; i ++){
+          //(a -D) * ((B -D) x (c - D))
+          A[i] = cur[1 *3 + i] - tetCorrner[i];
+          partial += A[i] * C[i];
+        }
+
+       
+        suportVol += abs(partial)/6;
+
+        //body trangulat solid 
+        double area = 0.0;
+        for(int j = 0; j < 3; j++){
+          partial = cur[next(j) *3 + 1 ] - cur[next(j+1) * 3 +1];
+          area += partial * cur[(j +1) * 3];
+        }
+        area = abs(area)/2;
+       
+     //   if(abs(area * minZ) > 0 ) std::cout << " +"<< area * minZ;
+        suportVol += area * minZ;
+      }
+
+
+
+
+    
+  }
+
+//  Slice(surfaces, (reader)->stats.numbsurface, stats,  (reader)->stats.extrema[5]);
+ // //at very end get raft volume
+
+ // free(surfaces);
+
+  mystats.data[0] = 0;
+//  std::cout << "  area :"<< areaTotal ;
+  mystats.data[1] = 0;
+  //std::cout << "  volume:"<< VolTotal  << std::endl;
+
+  mystats.data[2] = reader->stats.extrema[5]/ this->layerThickness;
+//  std::cout << " layers:"<< mystats.data[2]<< "\t" ;
+
+mystats.data[3] = suportVol;
+mystats.data[4] = 0;
+mystats.data[5] = 0;
 if(suportVol < 0 ) printf("ff suport error");
 if(VolTotal < 0 ) printf("ff vol error");
 if(areaTotal < 0 ) printf("ff area error");
@@ -439,7 +561,7 @@ if(areaTotal < 0 ) printf("ff area error");
 //std::cout << " corrners:"<< stats->data[4] << "\t";
 //std::cout << " islands:"<< stats->data[5] << "\n";
   // mystats.data[4] = 1;
-	* stats = mystats;
-	return 0;
+  * stats = mystats;
+  return 0;
 }
  

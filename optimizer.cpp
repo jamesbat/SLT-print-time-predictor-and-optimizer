@@ -7,9 +7,14 @@
 #include <cmath>
 #include <stdlib.h>
 
-#define stable  .001
-#define epslon  .0001
+#define stable  .0001
+#define epslon  .01
 #define PIE  3.14159265358979323846
+
+void printRot( rot turn){
+	for(int i = 0; i < 3; i++)
+		printf("%g\t", (turn[i]*180)/ PIE);
+}
 
 
 void Optimizer ::bestRotate(StlReader * reader, rot * bestRot){
@@ -19,10 +24,10 @@ void Optimizer ::bestRotate(StlReader * reader, rot * bestRot){
 	rot gradient;
 	rot bestCurRot;
 	float totalGrad;
-	int bestTime = 600 *2000;
-	int curTime;
-	curTime = pred.predictObj(reader);
-	printf("start at:%d\n", curTime);
+	float bestTime = 600 *2000;
+	float curTime;
+	curTime = pred.predictObj(reader, false);
+	printf("\nStart at:%g\n\n", curTime);
 	for(int tries = 0; tries < this->numbTries; tries ++ ){
 		// rand gen a new rotation 
 		for(int i = 0 ; i < 3; i++)
@@ -32,33 +37,44 @@ void Optimizer ::bestRotate(StlReader * reader, rot * bestRot){
 			//get gardient
 			reader->setRotation(rotation);
 			reader->setDown(false);
-			curTime = pred.predictObj(reader);
+			curTime = pred.predictObj(reader, true);
+			printf("\nPredictions:%g\t", curTime);
 			for(int i = 0; i < 3; i++){
 				rotation [i] += epslon;
 				reader->setRotation(rotation);
 				reader->setDown(false);
-				gradient[i] +=  alpha *((curTime - pred.predictObj(reader)) / epslon);
+
+				totalGrad = pred.predictObj(reader, true);
+				printf("%g\t", totalGrad);
+				gradient[i] +=  alpha *((curTime - totalGrad) / epslon);
 				rotation [i] -= epslon;
 			}
 			totalGrad = 0;
 			//update gradiantes 
+			printf("\nGradiants: ");
 			for(int i = 0; i < 3; i++){
 				rotation[i] += gradient[i];
+				printf("%g \t",gradient[i] );
 				totalGrad += gradient[i];
 			}
-			if(totalGrad < stable)break;
+			printf("\n");
+			if(totalGrad < stable){
+				printf("stableized at %d", steps);
+				break;
+			}
 		}
 		printf("\nended try\n");
-		if(curTime < bestTime){
+		curTime = pred.predictObj(reader, false);
+		if(curTime < bestTime && curTime >= 1){
 			for(int i = 0 ; i < 3; i++)
 				bestCurRot[i] = rotation[i];
-			printf("Moved from %d to %d \n", bestTime,curTime );
+			printf("Moved from %g to %g \n", bestTime,curTime );
 				bestTime = curTime;
 			
 		}
 	}
 	for(int i = 0 ; i < 3; i++)
 	 * bestRot[i] = bestCurRot[i];
-printf("Final time %d \n", bestTime );
+printf("\nFinal time %g \n\n", bestTime );
 	return;
 } 

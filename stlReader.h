@@ -125,6 +125,7 @@ class FeatureFinder{
 public:
 	float layerThickness = .2;
 	int getFeatures(Objstats * stats, StlReader * reader);
+	int rotFeatures(Objstats * stats, StlReader * reader);
 };
 
 
@@ -138,18 +139,18 @@ class Optimizer{
 public:
 	void ping(void){return;}
 	void bestRotate(StlReader * reader, rot * bestRot);
-	float alpha = .01;
+	float alpha = .1;
 	int numbSteps = 100;
-	int numbTries =5 ;
+	int numbTries =20 ;
 	float oldTime;
 	float bestTime;
 
-	std::string filename = "currentModel";
+	std::string filename = "./currentModel";
 	Optimizer(void){
 		this-> alpha = .05;
 	this-> numbSteps = 100;
 	this->numbTries =5 ;
-	this-> filename = "currentModel";
+	this-> filename = "./currentModel";
 	}
 
 };

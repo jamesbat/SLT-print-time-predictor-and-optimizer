@@ -1,4 +1,4 @@
- 
+
 #include "predictor.h"
 #include "cpp/src/ap.h"
 #include "cpp/src/linalg.h"
@@ -47,11 +47,12 @@ void Predictor ::store(std::string filename){
 void Predictor ::read(std::string filename){
 	std::ifstream input;
 	input.open(filename, std::ios::in);
-	std::cout << "reading " ;
+	std::cout << "\nreading Predictor " ;
 	for(int i = 0;  i < featDim; i++){
 		input >> W[i];
 		std::cout << W[i] << " ";
 	}
+	printf("\n");
 	educated = true;
 
 }
@@ -156,7 +157,7 @@ std::cout << "builing model "<< std::endl;
 	std::cout << "done "<< std::endl;
 	return 0;
 }
-int Predictor ::predict(std::string filename){
+float Predictor ::predict(std::string filename){
 
 	if(! educated) return -1;
 	reader.close();
@@ -180,22 +181,23 @@ int Predictor ::predict(std::string filename){
 	//return it
 	return out;
 } 
-int Predictor ::predictObj(StlReader * reader){
+float Predictor ::predictObj(StlReader * reader, bool rot){
 
 	if(! educated) return -1;
 
 	Objstats feature;
 	reader->getStats();
 	reader->restReading();
-	finder.getFeatures(&feature, reader);
-	
+	//if(rot)	
+	finder.getFeatures(&feature, reader);	
+	//else finder.getFeatures(&feature, reader);
 
-	//std::cout <<"  name:"<< filename << " + ";
 	float out = 0.0;
 	for(int i = 0; i < featDim; i++){
 		out += feature.data[i]* W[i];
-		//std::cout << feature.data[i] << " + ";
+//		printf("#%g\t\t", feature.data[i] );
 	}
+//	printf("\n");
 	out += W[featDim];
 	if(out <0) printf("predicor obj error\n");
 	//return it
