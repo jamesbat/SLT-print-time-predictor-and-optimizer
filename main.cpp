@@ -20,64 +20,77 @@ void pingArray(float * A, int row, int col){
 
 int main(void)
 {
-  srand(123456789);
-  std::cout << "Hello World!" << std::endl;
+  //srand(11235813);
+  std::cout << "Staring up World!" << std::endl;
   StlReader reader;
    std::string basename = "/home/accts/jcb97/proj/stls/";
 
 
-  reader.openFile(basename + "data/9.stl", false);
+ /* reader.openFile(basename + "data/2.stl", false);
   reader.getStats();
   reader.restReading();
-// Objstats stats;
+ Objstats stats;
   FeatureFinder finder; 
-  //finder.getFeatures( &stats, &reader);
+  finder.getFeatures( &stats, &reader);
    reader.restReading();
-/*
+*//*
 Optimizer optimizer;
 
-reader.openFile(basename + "data/6.stl", false);
+reader.openFile(basename + "data/37.stl", false);
   reader.getStats();
   reader.restReading();
 rot bestrot;
 optimizer.bestRotate(&reader, &bestrot);
-reader.openFile(basename + "data/7.stl", false);
+reader.setRotation(bestrot);
+reader.setDown(false);
+reader.saveObject(basename +"opt/37.stl");
+
+reader.openFile(basename + "data/38.stl", false);
   reader.getStats();
   reader.restReading();
 
 optimizer.bestRotate(&reader, &bestrot);
-reader.openFile(basename + "data/8.stl", false);
+reader.setRotation(bestrot);
+reader.setDown(false);
+reader.saveObject(basename +"opt/38.stl");
+
+
+
+reader.openFile(basename + "data/39.stl", false);
   reader.getStats();
   reader.restReading();
 
 optimizer.bestRotate(&reader, &bestrot);
+reader.setRotation(bestrot);
+reader.setDown(false);
+reader.saveObject(basename +"opt/39.stl");
 */
  Predictor guesser;
   guesser.learnFrom("./data");
- // guesser.read("currentModel");
+  //guesser.read("currentModel");
   //int buildtime =  guesser.predict("/home/accts/jcb97/proj/stls/data/9.stl");
   //std::cout << "\n got :" << buildtime << " to print 1"<< std::endl;
   guesser.store("currentModel");
- // double score = guesser.test("./test");
- // std::cout <<" guesser got" << score << std::endl;
-  
+ double score = guesser.test("./test");
+ std::cout <<" guesser r ^2 is:" << score << std::endl;
+   
   //Predictor secondguesser;
   //secondguesser.read("currentModel");
   //score = secondguesser.test("./data");
   //std::cout <<" secondguesser got" << score << std::endl;
-  /*
+/*  
    float spin [3];
-    int dim[3];
-   dim[0] =300;
-  dim[1] = 300;
-  dim[2] = 300;
+ //   int dim[3];
+ //  dim[0] =300;
+ // dim[1] = 300;
+ // dim[2] = 300;
  
-  for(int i = 25 ; i <41; i++){
+  for(int i = 42 ; i <62; i++){
     StlReader reader;
     std::string curname = basename+ std::to_string(i) +".stl";
     reader.openFile(curname, false);
     std::cout << curname << std::endl;
-    for(int rot = 0; rot < 4; rot ++){1
+    for(int rot = 0; rot < 4; rot ++){
       for(int j = 0; j <3; j++ )
       {
         if(rot != 0) spin[j] = rand() * PI;
@@ -87,7 +100,7 @@ optimizer.bestRotate(&reader, &bestrot);
       reader.getStats();
       reader.restReading();
  
-      reader.shrinkToFit(dim, false );
+     //reader.shrinkToFit(dim, false );
           reader.restReading();
       reader.setDown(false);
           reader.restReading();

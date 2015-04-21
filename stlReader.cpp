@@ -115,7 +115,7 @@ int StlReader ::openFile (std::string newname, bool overwrite){
 	sur in;
 	this->getSurface(in);
 	
-	std::cout << "open done numbsurface "<< stats.numbsurface  << std::endl;
+	//std::cout << "open done numbsurface "<< stats.numbsurface  << std::endl;
 	return 0;
 }
 

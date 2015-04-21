@@ -5,6 +5,8 @@
 #include "cpp/src/alglibinternal.h"
 #include "cpp/src/dataanalysis.h"
 #include "stlReader.h"
+#include <algorithm>    // std::sort
+#include <vector>       // std::vector
 
 //features followed by print time in minutes 
 
@@ -60,6 +62,8 @@ void Predictor ::read(std::string filename){
 
 
 int Predictor ::learnFrom(std::string filename){
+	timer t;
+	double totalTime = 0.0;
 	int numbpoints = 0;
 	Objstats feature;
 
@@ -97,6 +101,7 @@ std::getline(input, line);
 
 	for(int i = 0; i < numbpoints; i++){	
 	//parse each line
+		t.start();
 		std::getline(input, line);
 
 
@@ -105,7 +110,7 @@ std::getline(input, line);
 		name = line.substr(0, divider );
 		//std::string objname(temp);
 		
-		std::cout << "opening "<< name  << std::endl;
+				std::cout << "opening "<< name ;
 	//open file in reader
 		reader.openFile(front + name + back, false);
 		reader.getStats();
@@ -132,9 +137,12 @@ std::getline(input, line);
 	//	std::cout << "div is :"<<divider  << std::endl;
 		data(i, featDim ) = printTime;
 
+		totalTime += t.end();
+		std::cout << std::endl;
 		//std::cout << "finnished obj TIME :"<<printTime  << std::endl;
 	
 	}
+	printf("\nTotal time %g  ave %g\n\n", totalTime, totalTime/ numbpoints);
 	alglib::linearmodel mod;
 	alglib::lrreport rep;
 	alglib::ae_int_t info = 0;
@@ -188,9 +196,8 @@ float Predictor ::predictObj(StlReader * reader, bool rot){
 	Objstats feature;
 	reader->getStats();
 	reader->restReading();
-	//if(rot)	
-	finder.getFeatures(&feature, reader);	
-	//else finder.getFeatures(&feature, reader);
+	if(rot)	finder.rotFeatures(&feature, reader);	
+	else finder.getFeatures(&feature, reader);
 
 	float out = 0.0;
 	for(int i = 0; i < featDim; i++){
@@ -206,6 +213,8 @@ float Predictor ::predictObj(StlReader * reader, bool rot){
 
 
 int Predictor ::test(std::string filename){
+	timer t;
+	double totalTime = 0.0;
 	if(! educated) return -1;
 	//r^2	//R = 1- ssres  / sstot
 	//sstot = sum (yi - yave)^2
@@ -233,7 +242,7 @@ int Predictor ::test(std::string filename){
 
 	if(numbpoints == 0) std::cout << "zero data  points" << std::endl;
 	const int constpoints = numbpoints;
-
+	
 	double times[constpoints];
 	double eTimes[constpoints];
 	std::cout << "there are "<< numbpoints<< " data points " << std::endl;
@@ -256,10 +265,10 @@ int Predictor ::test(std::string filename){
 		name = line.substr(0, divider );
 		//std::string objname(temp);
 		
-	
+//	t.start();
 	//predict time
 		eTimes[i] = predict(front + name + back);
-		
+//	totalTime += t.end();
  
 	//read time 
 	
@@ -287,14 +296,31 @@ int Predictor ::test(std::string filename){
 	 //R = 1- ssres  / sstot
 	//sstot = sum (yi - yave)^2
 	//ssres = sum (yi - prediced yi)^2
-	
-	 for( int i = 0 ; i < numbpoints; i++){
+	std::vector<float> errors(constpoints);
+	std::vector<float> perErrors(constpoints);
+	std::vector<float> Time(constpoints);
+	 for( int i = 0 ; i < numbpoints-1; i++){
 	 	ssTot += pow((times[i] - yave), 2 );
 	 	ssRes += pow(( times[i]- eTimes[i] ), 2 );
+	 	errors[i] = fabs(times[i]- eTimes[i]);
+	 	perErrors[i] = fabs( (times[i]- eTimes[i]) * 100.0 / times[i]) ;
+	 	Time[i] = times[i];
 	 //	std::cout << times[i] << " ~ " << eTimes[i] << std::endl;
 	 }
 	 double R = 1 - ssTot/ ssRes;
-
+	 std::sort(Time.begin(), Time.end());
+	 std::sort(perErrors.begin(), perErrors.end());
+	 std::sort(errors.begin(), errors.end());
+	 printf("\nErrors min:%g\t  %g \t median: %g\t %g \t max:%g \n",
+	 	errors[0], errors[constpoints/4], errors[constpoints/2],
+	 	 errors[ 3* constpoints/4],	errors[ constpoints -1] );
+	 printf("\nPercent Errors min:%g\t  %g \t median: %g\t %g \t max:%g \n",
+	 	perErrors[0], perErrors[constpoints/4], perErrors[constpoints/2],
+	 	 perErrors[ 3* constpoints/4],	perErrors[ constpoints -1] );
+	  printf("\nTime min:%g\t  %g \t median: %g\t %g \t max:%g \n",
+	 	Time[0], Time[constpoints/4], Time[constpoints/2],
+	 	 Time[ 3* constpoints/4],	Time[ constpoints -1] );
+//printf("Total predict time sec:%g  ave:%g\n", totalTime, totalTime/numbpoints);
 	//get yave
 	return R;
 

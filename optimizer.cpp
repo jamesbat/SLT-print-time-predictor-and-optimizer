@@ -7,7 +7,7 @@
 #include <cmath>
 #include <stdlib.h>
 
-#define stable  .0001
+#define stable  .00001
 #define epslon  .01
 #define PIE  3.14159265358979323846
 
@@ -38,26 +38,26 @@ void Optimizer ::bestRotate(StlReader * reader, rot * bestRot){
 			reader->setRotation(rotation);
 			reader->setDown(false);
 			curTime = pred.predictObj(reader, true);
-			printf("\nPredictions:%g\t", curTime);
+			//printf("\nRot Predictions:%g\t", curTime);
 			for(int i = 0; i < 3; i++){
 				rotation [i] += epslon;
 				reader->setRotation(rotation);
 				reader->setDown(false);
 
 				totalGrad = pred.predictObj(reader, true);
-				printf("%g\t", totalGrad);
+			//	printf("%g\t", totalGrad);
 				gradient[i] +=  alpha *((curTime - totalGrad) / epslon);
 				rotation [i] -= epslon;
 			}
 			totalGrad = 0;
 			//update gradiantes 
-			printf("\nGradiants: ");
+		//	printf("\nGradiants: ");
 			for(int i = 0; i < 3; i++){
 				rotation[i] += gradient[i];
-				printf("%g \t",gradient[i] );
+		//		printf("%g \t",gradient[i] );
 				totalGrad += gradient[i];
 			}
-			printf("\n");
+		//	printf("\n");
 			if(totalGrad < stable){
 				printf("stableized at %d", steps);
 				break;

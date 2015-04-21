@@ -11,6 +11,28 @@
 #include <cstdint>
 #include <fstream>
 #include <string>
+#include <sys/time.h>
+
+class timer{
+public:
+		double t1 = 0;
+		double t2;
+	 timeval tim;
+	void start(void){
+		gettimeofday(&tim, NULL);
+		 t1=tim.tv_sec+(tim.tv_usec/1000000.0);
+
+	}
+	double long end(void){
+		gettimeofday(&tim, NULL);
+        t2=tim.tv_sec+(tim.tv_usec/1000000.0);
+        printf("\t sec elap:%.6lf \t", t2-t1);
+        return (t2 - t1) ;
+	}
+
+};
+
+
 
 
 class StlStats{
@@ -139,17 +161,17 @@ class Optimizer{
 public:
 	void ping(void){return;}
 	void bestRotate(StlReader * reader, rot * bestRot);
-	float alpha = .1;
-	int numbSteps = 100;
-	int numbTries =20 ;
+	float alpha ;
+	int numbSteps;
+	int numbTries ;
 	float oldTime;
 	float bestTime;
 
 	std::string filename = "./currentModel";
 	Optimizer(void){
-		this-> alpha = .05;
-	this-> numbSteps = 100;
-	this->numbTries =5 ;
+		this-> alpha = .10;
+	this-> numbSteps = 20;
+	this->numbTries = 40 ;
 	this-> filename = "./currentModel";
 	}
 

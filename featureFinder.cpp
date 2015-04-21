@@ -447,7 +447,7 @@ if(areaTotal < 0 ) printf("ff area error %g\n", areaTotal);
 
  int FeatureFinder ::rotFeatures(Objstats * stats, StlReader * reader){
   Objstats mystats;
-printf("---");
+//printf("---");
  
   float A[3];
   float B[3];
