@@ -296,7 +296,7 @@ int FeatureFinder ::getFeatures(Objstats * stats, StlReader * reader){
   // list <extremaSur> surMinZ;
  // list <extremaSur> surMaxZ;
 
-  surextrema * surfaces = ( surextrema *) malloc (filestats.numbsurface * sizeof(surextrema) );
+ // surextrema * surfaces = ( surextrema *) malloc (filestats.numbsurface * sizeof(surextrema) );
   
 	sur cur;
   reader->restReading();
@@ -408,18 +408,18 @@ int FeatureFinder ::getFeatures(Objstats * stats, StlReader * reader){
   			areaTotal += sqrt(partial)/2;
 
      //add surface to list for building slice
-        for(int i = 0; i < 12; i++) 
-          surfaces[surfnumb].body[i] = cur[i];
-          surfaces[surfnumb].min = minZ;
-          surfaces[surfnumb].max = maxZ;
+     //   for(int i = 0; i < 12; i++) 
+      //    surfaces[surfnumb].body[i] = cur[i];
+     //     surfaces[surfnumb].min = minZ;
+      //    surfaces[surfnumb].max = maxZ;
        
     
 	}
 
-//  Slice(surfaces, (reader)->stats.numbsurface, stats,  (reader)->stats.extrema[5]);
+  //Slice(surfaces, (reader)->stats.numbsurface, stats,  (reader)->stats.extrema[5]);
  // //at very end get raft volume
 
-  free(surfaces);
+ // free(surfaces);
 
   mystats.data[0] = areaTotal;
 //  std::cout << "  area :"<< areaTotal ;

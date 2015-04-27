@@ -18,61 +18,51 @@ void pingArray(float * A, int row, int col){
  std::cout <<std::endl;
 }
 
-int main(void)
-{
-  //srand(11235813);
-  std::cout << "Staring up World!" << std::endl;
-  StlReader reader;
-   std::string basename = "/home/accts/jcb97/proj/stls/";
-
-
- /* reader.openFile(basename + "data/2.stl", false);
-  reader.getStats();
-  reader.restReading();
- Objstats stats;
-  FeatureFinder finder; 
-  finder.getFeatures( &stats, &reader);
-   reader.restReading();
-*//*
+void opt(int name){
 Optimizer optimizer;
-
-reader.openFile(basename + "data/37.stl", false);
+StlReader reader;
+ std::string basename = "/home/accts/jcb97/proj/stls/";
+printf("optimizing %d\n", name);
+reader.openFile(basename + "data/" + std::to_string(name) +".stl", false);
   reader.getStats();
   reader.restReading();
 rot bestrot;
 optimizer.bestRotate(&reader, &bestrot);
 reader.setRotation(bestrot);
 reader.setDown(false);
-reader.saveObject(basename +"opt/37.stl");
+reader.saveObject(basename +"opt/" + std::to_string(name) +".stl");
 
-reader.openFile(basename + "data/38.stl", false);
+}
+
+
+int main(void)
+{
+  //srand(11235813);
+  std::cout << "Staring up World!" << std::endl;
+  StlReader reader;
+   std::string basename = "/home/accts/jcb97/proj/stls/";
+/*
+
+  reader.openFile(basename + "data/2.stl", false);
   reader.getStats();
   reader.restReading();
-
-optimizer.bestRotate(&reader, &bestrot);
-reader.setRotation(bestrot);
-reader.setDown(false);
-reader.saveObject(basename +"opt/38.stl");
-
-
-
-reader.openFile(basename + "data/39.stl", false);
-  reader.getStats();
-  reader.restReading();
-
-optimizer.bestRotate(&reader, &bestrot);
-reader.setRotation(bestrot);
-reader.setDown(false);
-reader.saveObject(basename +"opt/39.stl");
+ Objstats stats;
+  FeatureFinder finder; 
+  finder.getFeatures( &stats, &reader);
+   reader.restReading();
 */
- Predictor guesser;
-  guesser.learnFrom("./data");
-  //guesser.read("currentModel");
+for(int i =16; i < 21; i++)
+  opt (i);
+
+
+ //Predictor guesser;
+ // guesser.learnFrom("./data");
+ // guesser.read("currentModel");
   //int buildtime =  guesser.predict("/home/accts/jcb97/proj/stls/data/9.stl");
   //std::cout << "\n got :" << buildtime << " to print 1"<< std::endl;
-  guesser.store("currentModel");
- double score = guesser.test("./test");
- std::cout <<" guesser r ^2 is:" << score << std::endl;
+ // guesser.store("currentModel");
+ //double score = guesser.test("./data");
+ //std::cout <<" guesser r ^2 is:" << score << std::endl;
    
   //Predictor secondguesser;
   //secondguesser.read("currentModel");

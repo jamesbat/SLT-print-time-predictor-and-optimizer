@@ -8,7 +8,7 @@
 #include <stdlib.h>
 
 #define stable  .00001
-#define epslon  .01
+#define epslon  .001
 #define PIE  3.14159265358979323846
 
 void printRot( rot turn){
@@ -18,6 +18,8 @@ void printRot( rot turn){
 
 
 void Optimizer ::bestRotate(StlReader * reader, rot * bestRot){
+	timer t;
+	t.start();
 	Predictor pred;
 	pred.read(this->filename);
 	rot rotation;
@@ -55,7 +57,7 @@ void Optimizer ::bestRotate(StlReader * reader, rot * bestRot){
 			for(int i = 0; i < 3; i++){
 				rotation[i] += gradient[i];
 		//		printf("%g \t",gradient[i] );
-				totalGrad += gradient[i];
+				totalGrad += fabs(gradient[i]);
 			}
 		//	printf("\n");
 			if(totalGrad < stable){
@@ -63,7 +65,7 @@ void Optimizer ::bestRotate(StlReader * reader, rot * bestRot){
 				break;
 			}
 		}
-		printf("\nended try\n");
+	//	printf("  ended try\n");
 		curTime = pred.predictObj(reader, false);
 		if(curTime < bestTime && curTime >= 1){
 			for(int i = 0 ; i < 3; i++)
@@ -75,6 +77,8 @@ void Optimizer ::bestRotate(StlReader * reader, rot * bestRot){
 	}
 	for(int i = 0 ; i < 3; i++)
 	 * bestRot[i] = bestCurRot[i];
-printf("\nFinal time %g \n\n", bestTime );
+	double endtime = t.end();
+printf("\nFinal time min: %g secs used:%g \n\n", bestTime, endtime);
+
 	return;
 } 

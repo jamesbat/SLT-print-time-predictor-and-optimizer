@@ -53,7 +53,7 @@ struct Objstats{
 	// support volume
 	// sharp corrners
 	// # islands 
-	double data[6];
+	double data[7];
 
 	/*double surfaceArea; //mm^2
 	double volume; // mm^3
@@ -169,8 +169,8 @@ public:
 
 	std::string filename = "./currentModel";
 	Optimizer(void){
-		this-> alpha = .10;
-	this-> numbSteps = 20;
+		this-> alpha = .30;
+	this-> numbSteps = 200;
 	this->numbTries = 40 ;
 	this-> filename = "./currentModel";
 	}

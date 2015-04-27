@@ -41,7 +41,7 @@ void Predictor ::store(std::string filename){
 	std::ofstream output;
 	output.open(filename, std::ios::out);
 	std::cout << "storing " ;
-	for(int i = 0;  i < featDim; i++){
+	for(int i = 0;  i < featDim + 1; i++){
 		output << W[i] << ' ';
 		std::cout << W[i] << " ";
 	}
@@ -50,7 +50,7 @@ void Predictor ::read(std::string filename){
 	std::ifstream input;
 	input.open(filename, std::ios::in);
 	std::cout << "\nreading Predictor " ;
-	for(int i = 0;  i < featDim; i++){
+	for(int i = 0;  i < featDim + 1; i++){
 		input >> W[i];
 		std::cout << W[i] << " ";
 	}
@@ -202,7 +202,7 @@ float Predictor ::predictObj(StlReader * reader, bool rot){
 	float out = 0.0;
 	for(int i = 0; i < featDim; i++){
 		out += feature.data[i]* W[i];
-//		printf("#%g\t\t", feature.data[i] );
+	//	printf("#%g\t\t", feature.data[i] );
 	}
 //	printf("\n");
 	out += W[featDim];
@@ -265,10 +265,10 @@ int Predictor ::test(std::string filename){
 		name = line.substr(0, divider );
 		//std::string objname(temp);
 		
-//	t.start();
+	t.start();
 	//predict time
 		eTimes[i] = predict(front + name + back);
-//	totalTime += t.end();
+	totalTime += t.end();
  
 	//read time 
 	
@@ -320,7 +320,7 @@ int Predictor ::test(std::string filename){
 	  printf("\nTime min:%g\t  %g \t median: %g\t %g \t max:%g \n",
 	 	Time[0], Time[constpoints/4], Time[constpoints/2],
 	 	 Time[ 3* constpoints/4],	Time[ constpoints -1] );
-//printf("Total predict time sec:%g  ave:%g\n", totalTime, totalTime/numbpoints);
+printf("Total predict time sec:%g  ave:%g\n", totalTime, totalTime/numbpoints);
 	//get yave
 	return R;
 
