@@ -51,8 +51,8 @@ int main(void)
   finder.getFeatures( &stats, &reader);
    reader.restReading();
 */
-//for(int i =16; i < 21; i++)
-  opt (1);
+for(int i =16; i < 21; i++)
+  opt (i);
 
 
  //Predictor guesser;
@@ -61,9 +61,9 @@ int main(void)
   //int buildtime =  guesser.predict("/home/accts/jcb97/proj/stls/data/9.stl");
   //std::cout << "\n got :" << buildtime << " to print 1"<< std::endl;
  // guesser.store("currentModel");
- // guesser.test("./test");
- 
-    
+ //double score = guesser.test("./data");
+ //std::cout <<" guesser r ^2 is:" << score << std::endl;
+   
   //Predictor secondguesser;
   //secondguesser.read("currentModel");
   //score = secondguesser.test("./data");

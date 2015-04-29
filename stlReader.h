@@ -1,6 +1,10 @@
 #ifndef STLREADER_H
 #define STLREADER_H
-
+//corrners 
+//raft area 
+//more some functions to utils 
+//scaling check
+//check surface normal
 
 #include <cstdlib>
 #include <iostream>
@@ -9,7 +13,6 @@
 #include <string>
 #include <sys/time.h>
 
-//used to get exictuion time acurate to .01 seconds
 class timer{
 public:
 		double t1 = 0;
@@ -31,19 +34,18 @@ public:
 
 
 
-//the statistics of an stl object
+
 class StlStats{
 public:
-	uint32_t numbsurface; //numbere of surfaces
+	uint32_t numbsurface;
 	float extrema[6]; // xmin xmax  y  z
 	float avenorm[3];
 	void print(void);
 };
-
 //each surface
 typedef float sur[12];//   //norm then 3 vertexes
 
-//array of features to be passed from freaure finder to predictor
+
 struct Objstats{
 	// surface area
 	// obj volume
@@ -53,10 +55,14 @@ struct Objstats{
 	// # islands 
 	double data[7];
 
+	/*double surfaceArea; //mm^2
+	double volume; // mm^3
+	//double raftArea;// mm^2
+	double layers; // # layers 
+	double constant = 1; 
+	double */
 };
 
-//the transform that the reader appiles to the object befor 
-// passing it out
 struct StlTransform{
 	//objects are rotated first 
 	//then scaled then translated
@@ -93,7 +99,7 @@ public:
 			this->transform.scale[i] = 1.0;
 	}
 
-	
+	void hello(void);
 
 	int restReading(void);
 	//restart reading at first surface
@@ -127,7 +133,6 @@ public:
 
 	
 };  
-//stores a surface and its max and min z values 
 struct surextrema{
   
   sur body;
@@ -138,35 +143,30 @@ struct surextrema{
 
 
 class FeatureFinder{
-	// slice object to get numb corners and numb islands
 	void Slice( surextrema surfaces[], int numbsurface, Objstats * stats, float top );
 public:
 	float layerThickness = .2;
-	//get all features 
 	int getFeatures(Objstats * stats, StlReader * reader);
-	//get only features that are rotation dependent
 	int rotFeatures(Objstats * stats, StlReader * reader);
 };
 
 
-//3D rotation matrix 
+
 typedef float rot[3];
 
-//general perpose matrix multiper A * B = C
-// A n*m  B m*p  C n *P
+
 void matrixmult (float * A , float * B, float * C, int n, int p, int m );
 
 class Optimizer{
 public:
-	// find the best rotation for an object store in bestRot
+	void ping(void){return;}
 	void bestRotate(StlReader * reader, rot * bestRot);
-	
-	float alpha ; //size of steps
-	int numbSteps; // number of steps per try
-	int numbTries ; //number of tries 
+	float alpha ;
+	int numbSteps;
+	int numbTries ;
 	float oldTime;
 	float bestTime;
-	//where to find current predicotr model 
+
 	std::string filename = "./currentModel";
 	Optimizer(void){
 		this-> alpha = .30;
