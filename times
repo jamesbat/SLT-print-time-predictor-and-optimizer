@@ -1,0 +1,566 @@
+times
+
+139	9:57:00    10:17 		20min
+140	10:18 		10:31 		13min
+145	10:35	10:43  			8min
+177 12:16 	12:19 			3min
+178 12:19   12:25  			6min
+179	12:26	12:29 			3min		53 min 
+
+123 -> 180  selected deletions 
+average error:210.428 perecnt err:32.3374
+
+Errors min:0      16.4836        median: 45.5536         134.027         max:4285.97
+
+Percent Errors min:0      9.18371        median: 21.9503         33.5846         max:377.951
+
+Time min:0        99     median: 227     757     max:7886
+
+
+
+
+------- Predictor build full set with 4 features 
+there are 180 data points 
+opening 1        sec elap:0.001980 
+opening 3        sec elap:0.001104 
+opening 4        sec elap:0.001387 
+opening 5        sec elap:0.001239 
+opening 6        sec elap:0.001411 
+opening 7        sec elap:0.001548 
+opening 8        sec elap:0.001536 
+opening 9        sec elap:0.028484 
+opening 10       sec elap:0.031496 
+opening 11       sec elap:0.031175 
+opening 12       sec elap:0.028815 
+opening 13       sec elap:0.031105 
+opening 14       sec elap:0.031100 
+opening 15       sec elap:0.002196 
+opening 16       sec elap:0.001782 
+opening 17       sec elap:0.001774 
+opening 18       sec elap:0.002937 
+opening 19       sec elap:0.003142 
+opening 20       sec elap:0.002979 
+opening 21       sec elap:0.002188 
+opening 22       sec elap:0.002370 
+opening 23       sec elap:0.002404 
+opening 24       sec elap:0.000903 
+opening 25       sec elap:0.000941 
+opening 26       sec elap:0.000908 
+opening 27       sec elap:0.001087 
+opening 28       sec elap:0.001134 
+opening 29       sec elap:0.001073 
+opening 30       sec elap:0.064495 
+opening 31       sec elap:0.066641 
+opening 32       sec elap:0.066033 
+opening 33       sec elap:0.110863 
+opening 34       sec elap:0.111659 
+opening 35       sec elap:0.111181 
+opening 36       sec elap:0.038738 
+opening 37       sec elap:0.040931 
+opening 38       sec elap:0.039768 
+opening 39       sec elap:0.001445 
+opening 40       sec elap:0.001251 
+opening 41       sec elap:0.001221 
+opening 42       sec elap:0.026203 
+opening 45       sec elap:0.001036 
+opening 46       sec elap:0.000792 
+opening 47       sec elap:0.000881 
+opening 48       sec elap:0.006090 
+opening 49       sec elap:0.006354 
+opening 50       sec elap:0.006203 
+opening 51       sec elap:0.005018 
+opening 52       sec elap:0.004988 
+opening 53       sec elap:0.004976 
+opening 54       sec elap:0.014735 
+opening 55       sec elap:0.015058 
+opening 56       sec elap:0.015037 
+opening 57       sec elap:0.176248 
+opening 58       sec elap:0.173031 
+opening 59       sec elap:0.174848 
+opening 60       sec elap:0.067282 
+opening 61       sec elap:0.073459 
+opening 62       sec elap:0.071336 
+opening 63       sec elap:0.011942 
+opening 64       sec elap:0.013457 
+opening 65       sec elap:0.013758 
+opening 66       sec elap:0.000878 
+opening 67       sec elap:0.000841 
+opening 68       sec elap:0.000784 
+opening 69       sec elap:0.049791 
+opening 70       sec elap:0.050986 
+opening 71       sec elap:0.051028 
+opening 72       sec elap:0.002194 
+opening 73       sec elap:0.002176 
+opening 74       sec elap:0.002077 
+opening 75       sec elap:0.007253 
+opening 76       sec elap:0.007927 
+opening 77       sec elap:0.007918 
+opening 78       sec elap:0.001299 
+opening 79       sec elap:0.001555 
+opening 80       sec elap:0.001187 
+opening 81       sec elap:0.045963 
+opening 82       sec elap:0.046528 
+opening 83       sec elap:0.046936 
+opening 84       sec elap:0.764598 
+opening 85       sec elap:0.759467 
+opening 86       sec elap:0.762177 
+opening 87       sec elap:0.019094 
+opening 88       sec elap:0.019521 
+opening 89       sec elap:0.019411 
+opening 90       sec elap:0.042431 
+opening 91       sec elap:0.044266 
+opening 92       sec elap:0.042503 
+opening 93       sec elap:0.008986 
+opening 94       sec elap:0.009134 
+opening 95       sec elap:0.009166 
+opening 96       sec elap:0.005208 
+opening 97       sec elap:0.005225 
+opening 98       sec elap:0.005115 
+opening 99       sec elap:0.010551 
+opening 100      sec elap:0.010333 
+opening 101      sec elap:0.010655 
+opening 102      sec elap:0.001874 
+opening 103      sec elap:0.001531 
+opening 104      sec elap:0.001548 
+opening 105      sec elap:0.003249 
+opening 106      sec elap:0.003160 
+opening 107      sec elap:0.003171 
+opening 108      sec elap:0.008367 
+opening 109      sec elap:0.008746 
+opening 110      sec elap:0.008974 
+opening 111      sec elap:0.006953 
+opening 112      sec elap:0.006472 
+opening 113      sec elap:0.006423 
+opening 114      sec elap:0.008950 
+opening 115      sec elap:0.009291 
+opening 116      sec elap:0.008976 
+opening 117      sec elap:0.003075 
+opening 118      sec elap:0.003179 
+opening 119      sec elap:0.003264 
+opening 120      sec elap:0.001832 
+opening 121      sec elap:0.001822 
+opening 122      sec elap:0.001829 
+opening 123      sec elap:0.116546 
+opening 124      sec elap:0.118127 
+opening 126      sec elap:0.214433 
+opening 127      sec elap:0.214929 
+opening 128      sec elap:0.213101 
+opening 129      sec elap:0.090884 
+opening 130      sec elap:0.091326 
+opening 131      sec elap:0.092229 
+opening 132      sec elap:0.038512 
+opening 133      sec elap:0.039464 
+opening 134      sec elap:0.039053 
+opening 135      sec elap:0.001952 
+opening 136      sec elap:0.001544 
+opening 137      sec elap:0.001598 
+opening 138      sec elap:0.455846 
+opening 139      sec elap:0.451355 
+opening 140      sec elap:0.459426 
+opening 141      sec elap:0.023782 
+opening 142      sec elap:0.024127 
+opening 143      sec elap:0.023214 
+opening 144      sec elap:0.009242 
+opening 145      sec elap:0.010454 
+opening 146      sec elap:0.010105 
+opening 147      sec elap:0.001674 
+opening 148      sec elap:0.001452 
+opening 149      sec elap:0.001392 
+opening 150      sec elap:0.001112 
+opening 151      sec elap:0.001129 
+opening 152      sec elap:0.001084 
+opening 153      sec elap:0.086826 
+opening 154      sec elap:0.085168 
+opening 155      sec elap:0.085819 
+opening 156      sec elap:0.012865 
+opening 157      sec elap:0.012619 
+opening 158      sec elap:0.012861 
+opening 159      sec elap:0.005161 
+opening 160      sec elap:0.005519 
+opening 161      sec elap:0.005559 
+opening 162      sec elap:0.013517 
+opening 163      sec elap:0.014067 
+opening 164      sec elap:0.013548 
+opening 165      sec elap:0.072334 
+opening 166      sec elap:0.074327 
+opening 167      sec elap:0.073451 
+opening 168      sec elap:0.007316 
+opening 169      sec elap:0.007152 
+opening 170      sec elap:0.006782 
+opening 171      sec elap:0.015977 
+opening 172      sec elap:0.015925 
+opening 173      sec elap:0.015916 
+opening 174      sec elap:0.000975 
+opening 175      sec elap:0.000897 
+opening 176      sec elap:0.000966 
+opening 177      sec elap:0.554188 
+opening 178      sec elap:0.559115 
+opening 179      sec elap:0.566668 
+opening 180      sec elap:0.006722 
+opening 181      sec elap:0.006582 
+opening 182      sec elap:0.006656 
+opening 183      sec elap:0.004172 
+opening 184      sec elap:0.004013 
+
+
+
+Total time 1.84742  ave 0.0150197
+
+builing model
+report:1
+rms:60.1338
+extracting terms
+terms out
+done
+storing 0.00566065 0.00102696 0.0101802 5.86971e-05 8.78753e-39 there are 180 data points
+surf area       obj vol       layers        sup vol        real~predicted
+10094.5         27233.8         57.1499         0.00332546                       sec elap:0.000951              75 ~ 85.6914
+10094.5         9609.33         358.14          41805.3                  sec elap:0.000981              88 ~ 73.1098
+10094.5         16784.5         100.622         10331                    sec elap:0.002072              93 ~ 76.0094
+10094.5         14706.8         317.494         65085.9                  sec elap:0.001139              92 ~ 79.2975
+8400            14204.2         75              0                        sec elap:0.001274              63 ~ 62.9001
+8400            14530.7         345.495         37268.2                  sec elap:0.001344              104 ~ 68.1767
+8400            13558           354.92          37340.2                  sec elap:0.001404              84 ~ 67.2779
+9112.17         4326.33         95              303.222                  sec elap:0.026425              60 ~ 57.0087
+9112.18         4159.5          424.707         22346.5                  sec elap:0.029030              102 ~ 61.4878
+9112.18         4173.5          285.605         10299.9                  sec elap:0.029249              89 ~ 59.3789
+9112.17         4326.33         95              303.222                  sec elap:0.026587              60 ~ 57.0087
+9112.17         4435.17         458.814         27399.9                  sec elap:0.028521              111 ~ 62.4147
+9112.17         4523.67         363.271         20260.7                  sec elap:0.028868              99 ~ 61.1139
+10503.5         21188.7         54.4544         1312.92                  sec elap:0.001676              87 ~ 81.848
+10503.5         22177.2         520.343         82365.7                  sec elap:0.001589              126 ~ 92.3635
+10503.5         22023.8         567.677         63359.6                  sec elap:0.001792              120 ~ 91.5723
+21717.1         44308.7         54.4544         2719.98                  sec elap:0.002630              111 ~ 169.15
+21717.1         43820.3         776.194         204679                   sec elap:0.002690              182 ~ 187.851
+21717.1         44805.7         747.402         254472                   sec elap:0.002585              195 ~ 191.492
+58023.7         151315          275.01          34240.8                  sec elap:0.002103              374 ~ 488.656
+58023.7         151399          406.022         448536                   sec elap:0.002185              445 ~ 514.394
+58023.7         150163          309.491         237785                   sec elap:0.002871              436 ~ 499.772
+ff vol error -46.6667
+2727.76         -46.6667                186.517         9309.3                   sec elap:0.000674              29 ~ 17.8382
+2727.76         3638.67         146.234         4699.46                  sec elap:0.000790              27 ~ 20.9422
+2727.76         4737            146.583         4765.44                  sec elap:0.000891              26 ~ 22.0776
+4863.28         10905.7         186.517         9385.78                  sec elap:0.000942              30 ~ 41.1787
+4863.28         10333           185.426         13581.7                  sec elap:0.001207              30 ~ 40.8258
+4863.28         13040.2         154.877         17920.8                  sec elap:0.000933              28 ~ 43.5497
+45016.3         184737          720.938         8180.48                  sec elap:0.060963              440 ~ 452.36
+45016.3         187152          653.987         14763.3                  sec elap:0.062447              545 ~ 454.544
+45016.3         187705          441.786         16292.5                  sec elap:0.061861              535 ~ 453.041
+67706.9         255219          720.938         10267.7                  sec elap:0.104609              644 ~ 653.307
+67706.8         256699          492.747         36336.7                  sec elap:0.107787              1039 ~ 654.034
+67706.9         250355          1156.36         31508.5                  sec elap:0.106768              878 ~ 653.991
+62151           502977          550.52          96140.4                  sec elap:0.036477              1313 ~ 879.602
+62151           505758          604.981         81880                    sec elap:0.039124              1077 ~ 882.175
+62151.1         503882          722.154         101827                   sec elap:0.037618              933 ~ 882.612
+2528.77         1820.5          51.96           1166.94                  sec elap:0.001298              16 ~ 16.7816
+2528.77         2022.5          242.928         8951.67                  sec elap:0.001424              45 ~ 19.39
+2528.77         1888.5          225.013         7702.47                  sec elap:0.001048              39 ~ 18.9967
+17407.1         113306          459.73          5.59022                  sec elap:0.024483              204 ~ 219.578
+8640.59         7500.67         250             14164                    sec elap:0.000938              64 ~ 59.9907
+ff vol error -11193.5
+8640.59         -11193.5                390.311         54355.7                  sec elap:0.000643              103 ~ 44.58
+ff vol error -10209.3
+8640.59         -10209.3                481.199         80798.1                  sec elap:0.001023              91 ~ 48.0681
+70891.2         104426          530.254         298227                   sec elap:0.006212              536 ~ 531.435
+70891.2         72153.8         840.776         1.3124e+06                       sec elap:0.006575              861 ~ 560.983
+70891.2         95794.8         1003.34         2.12542e+06                      sec elap:0.006398              809 ~ 634.638
+9214.89         23004.8         250             5.96153                  sec elap:0.004810              81 ~ 78.3328
+9214.89         40235.3         388.101         19109.7                  sec elap:0.004772              87 ~ 98.5551
+9214.89         24516.2         306.623         22591.7                  sec elap:0.004565              92 ~ 81.787
+16451.7         34528.5         517.353         69632.5                  sec elap:0.013796              191 ~ 137.941
+16451.7         35117.3         450.889         114433                   sec elap:0.013859              180 ~ 140.499
+16451.7         34596.8         502.224         84386.1                  sec elap:0.013811              180 ~ 138.723
+69309.3         240814          443.711         30661.4                  sec elap:0.165972              706 ~ 645.959
+69309.3         240413          852.997         75811.8                  sec elap:0.163582              900 ~ 652.365
+69309.3         244122          945.448         39324.7                  sec elap:0.165004              892 ~ 654.973
+26463.6         38038.8         626.42          21255.1                  sec elap:0.063146              220 ~ 196.49
+26463.6         41120.3         619.35          182165                   sec elap:0.068641              279 ~ 209.028
+26463.6         34827           367.037         188154                   sec elap:0.066859              227 ~ 200.348
+71096           74793.5         590             0                        sec elap:0.011307              482 ~ 485.266
+71096           76971           546.856         390508                   sec elap:0.012687              564 ~ 509.985
+71096           74486           668.464         506954                   sec elap:0.012458              478 ~ 515.506
+39444.7         215037          725             265759                   sec elap:0.000872              543 ~ 467.098
+39444.7         165009          369.445         109448                   sec elap:0.000680              596 ~ 402.926
+39444.7         61296.8         481.17          236950                   sec elap:0.000712              605 ~ 305.039
+56408.5         60489.3         624.211         304211                   sec elap:0.046215              466 ~ 405.64
+56408.5         60612.7         818.601         592760                   sec elap:0.047302              566 ~ 424.683
+56408.5         58231.3         745.11          593263                   sec elap:0.047134              562 ~ 421.519
+25712.6         28491           82.55           308.814                  sec elap:0.002082              156 ~ 175.668
+25712.6         31265.2         578.188         410482                   sec elap:0.001909              224 ~ 207.638
+25712.6         28650.7         826.183         214881                   sec elap:0.001878              244 ~ 195.997
+4384.73         12782.8         126.978         341.727                  sec elap:0.006630              263 ~ 39.2606
+4384.73         12818.3         452.262         1019.49                  sec elap:0.008876              283 ~ 42.6484
+4384.73         13291           417.338         7892                     sec elap:0.007285              231 ~ 43.1816
+32074.6         28617.3         432.845         316736                   sec elap:0.001289              261 ~ 233.95
+32074.6         29287.8         405.975         283212                   sec elap:0.001060              256 ~ 232.397
+32074.6         27762.2         412.118         290268                   sec elap:0.001049              265 ~ 231.307
+21696.5         35483.8         541.115         0                        sec elap:0.042704              162 ~ 164.766
+21696.5         36573.3         327.613         42                       sec elap:0.042898              211 ~ 163.714
+21696.5         36720.8         319.738         0                        sec elap:0.043393              195 ~ 163.782
+66797.4         96868.2         678.237         0                        sec elap:0.717494              920 ~ 484.501
+66797.4         96618.2         673.071         0                        sec elap:0.715393              941 ~ 484.192
+66797.4         97234.5         677.051         0                        sec elap:0.716228              930 ~ 484.865
+40816.3         110053          309.691         29228.3                  sec elap:0.017488              350 ~ 348.936
+40816.3         111414          518.545         246830                   sec elap:0.018041              480 ~ 365.232
+40816.3         107485          1057.57         487463                   sec elap:0.018250              511 ~ 380.809
+22746.2         64711.7         383.49          1130.34                  sec elap:0.039231              213 ~ 199.185
+22746.2         64719           558.591         44185.1                  sec elap:0.039883              269 ~ 203.502
+22746.2         64407.8         448.258         28706.7                  sec elap:0.039902              248 ~ 201.151
+19462.5         40835.7         536             21503.1                  sec elap:0.008901              184 ~ 158.826
+19462.5         41870.8         412.569         148496                   sec elap:0.008753              186 ~ 166.086
+19462.5         40550           359.616         123439                   sec elap:0.008504              172 ~ 162.72
+14687.4         32975           55              1729.32                  sec elap:0.004852              111 ~ 117.666
+14687.4         33291.8         889.721         154559                   sec elap:0.005416              242 ~ 135.46
+14687.4         34194.5         511.578         66819.5                  sec elap:0.004891              172 ~ 127.387
+10103.2         31597.2         308.851         14686.4                  sec elap:0.009864              85 ~ 93.6459
+10103.2         32815.5         315.588         23534.2                  sec elap:0.009831              97 ~ 95.485
+10103.2         31374.2         236.01          29831                    sec elap:0.011993              102 ~ 93.5643
+163370          228867          649.98          65512.9                  sec elap:0.002906              1043 ~ 1170.28
+163370          199944          815.322         3.07965e+06                      sec elap:0.002578              2587 ~ 1319.18
+163370          197553          853.279         3.31478e+06                      sec elap:0.002384              2610 ~ 1330.91
+72930.7         162083          350             30483                    sec elap:0.002779              511 ~ 584.64
+72930.7         161299          941.083         1.02717e+06                      sec elap:0.003586              808 ~ 648.355
+72930.7         164477          1006.1          975399                   sec elap:0.003729              987 ~ 649.243
+126944          85822.3         448.03          100451                   sec elap:0.008741              757 ~ 817.181
+126944          47905.8         931.306         2.81799e+06                      sec elap:0.009288              832 ~ 942.673
+126944          35915           1021.79         2.06224e+06                      sec elap:0.009957              971 ~ 886.92
+10488.3         2528.17         176.5           16612.7                  sec elap:0.006144              72 ~ 64.739
+10488.3         2557.67         231.67          30917.5                  sec elap:0.006476              92 ~ 66.1705
+10488.3         2374.17         238.958         33965                    sec elap:0.006439              98 ~ 66.2352
+25519.4         7199.67         215.53          2671.5                   sec elap:0.009103              65 ~ 154.201
+25519.4         7298.83         229.779         95609.8                  sec elap:0.009154              99 ~ 159.903
+25519.4         7281            231.424         13789.2                  sec elap:0.008188              81 ~ 155.099
+3418.24         4925.67         45              0                        sec elap:0.002831              24 ~ 24.866
+3418.24         4849.17         212.04          7554.38                  sec elap:0.002970              41 ~ 26.9314
+3418.24         5002.33         255.633         8506.25                  sec elap:0.002955              50 ~ 27.5883
+28911.4         38542.7         115             0                        sec elap:0.001728              181 ~ 204.41
+28911.4         37455           505.048         279451                   sec elap:0.001831              208 ~ 223.667
+28911.4         38489.3         524.253         246630                   sec elap:0.001658              309 ~ 222.998
+97408.7         722631          837.718         26579.8                  sec elap:0.110807              1373 ~ 1303.6
+97408.7         725955          493.939         18718.7                  sec elap:0.111684              1453 ~ 1303.05
+68763.4         215329          934.361         26495.8                  sec elap:0.201836              952 ~ 621.447
+68763.4         216170          877.387         38336.5                  sec elap:0.202678              916 ~ 622.426
+68763.4         213589          848.754         46963.4                  sec elap:0.200359              940 ~ 619.991
+85973.9         851163          923.27          9399.02                  sec elap:0.086879              1377 ~ 1370.73
+85973.9         730220          748.397         46037.8                  sec elap:0.086933              1557 ~ 1246.9
+85973.9         852953          775.992         154875                   sec elap:0.088912              1718 ~ 1379.61
+208090          1.58519e+06             3539.38         9.16179e+06                      sec elap:0.036511              3276 ~ 3379.66
+208090          1.63257e+06             1213.21         3.68428e+06                      sec elap:0.036923              4387 ~ 3083.12
+208090          1.63729e+06             1155.75         2.84063e+06                      sec elap:0.037521              4391 ~ 3037.87
+ff vol error -16139.8
+12556.7         -16139.8                5018.07         2.07764e+06                      sec elap:0.001791              142 ~ 227.541
+12556.7         87118.7         370.228         57841.1                  sec elap:0.001376              150 ~ 167.711
+12556.7         95343.2         244.417         17633.8                  sec elap:0.001337              155 ~ 172.516
+689442          1.54231e+06             786.263         5.17899e+06                      sec elap:0.430977              6297 ~ 5798.58
+689442          1.70395e+06             1684.7          1.58847e+07                      sec elap:0.428521              7886 ~ 6602.12
+451435          877568          1019.52         7.58825e+06                      sec elap:0.427624              4434 ~ 3912.43
+33901.8         9159.17         150             4577.07                  sec elap:0.020364              200 ~ 203.108
+33901.8         2064            690.802         140322                   sec elap:0.020513              220 ~ 209.295
+ff vol error -4269
+33901.8         -4269           674.52          140746                   sec elap:0.020588              214 ~ 202.65
+297592          343686          787.994         6.17294e+06                      sec elap:0.009175              1746 ~ 2407.87
+297592          342309          953.901         7.34363e+06                      sec elap:0.009200              1773 ~ 2476.86
+297592          302871          944.137         5.57652e+06                      sec elap:0.009456              1759 ~ 2332.54
+20986.7         158530          455.071         59058.5                  sec elap:0.001478              263 ~ 289.702
+20986.7         151577          527.587         181196                   sec elap:0.001307              282 ~ 290.469
+20986.7         165900          402.845         96465.9                  sec elap:0.001230              284 ~ 298.935
+8115.24         22696.5         238.402         9821.38                  sec elap:0.001173              73 ~ 72.2494
+8115.23         20959.5         170.748         28662                    sec elap:0.001046              83 ~ 70.8827
+8115.23         21277.8         311.901         48857.1                  sec elap:0.001069              92 ~ 73.832
+79910.7         133792          574.128         429806                   sec elap:0.080183              794 ~ 620.819
+79910.7         133208          674.562         273747                   sec elap:0.079026              698 ~ 612.081
+79910.7         131909          695.586         476924                   sec elap:0.080419              685 ~ 622.888
+7902.38         5483.33         264.095         0                        sec elap:0.012468              119 ~ 53.0523
+7902.37         5134.33         260.767         0                        sec elap:0.012025              79 ~ 52.66
+7902.38         5840.17         264.559         0                        sec elap:0.012015              81 ~ 53.4235
+106200          256285          535.005         132585                   sec elap:0.005604              871 ~ 877.587
+106201          255494          659.469         1.28237e+06                      sec elap:0.005837              929 ~ 945.532
+106200          253098          683.022         1.50937e+06                      sec elap:0.006450              953 ~ 956.634
+3517.39         8513.5          126.624         108.989                  sec elap:0.012583              36 ~ 29.9492
+3517.39         8675.67         162.621         0                        sec elap:0.012813              38 ~ 30.4758
+3517.39         8849.33         303.33          318.588                  sec elap:0.013678              44 ~ 32.1053
+16460           55655.2         375.002         0                        sec elap:0.067868              179 ~ 154.148
+16460           55234.5         352.207         0                        sec elap:0.072723              156 ~ 153.484
+16460           55924.8         389.382         0                        sec elap:0.071324              187 ~ 154.571
+14967.2         18213           275.702         26197.7                  sec elap:0.010746              105 ~ 107.773
+14967.2         18627.5         302.693         102739                   sec elap:0.007440              129 ~ 112.966
+14967.2         17310.3         194.189         35168.4                  sec elap:0.007917              102 ~ 106.542
+649882          624174          263.026         3.53304e+06                      sec elap:0.019994              1134 ~ 4529.81
+649882          625040          593.312         8.99907e+06                      sec elap:0.019972              1375 ~ 4854.91
+649882          625426          632.701         9.3236e+06                       sec elap:0.021662              1203 ~ 4874.75
+24059.9         41236           186.987         0                        sec elap:0.000839              221 ~ 180.446
+ff vol error -14550.5
+13236.2         -14550.5                455.889         75177.3                  sec elap:0.001130              153 ~ 69.0366
+ff vol error -38571.2
+9753.2          -38571.2                397.373         66892.8                  sec elap:0.001288              97 ~ 23.57
+25636.1         158351          456.45          11368.2                  sec elap:0.527761              280 ~ 313.052
+26982.6         169260          370.422         35671.2                  sec elap:0.530551              317 ~ 332.427
+16635.2         78418.2         303.914         6650.44                  sec elap:0.535340              178 ~ 178.183
+63997           231522          711.908         697019                   sec elap:0.006313              698 ~ 648.19
+63997           231626          689.841         938930                   sec elap:0.006514              711 ~ 662.271
+63997           229597          710.924         1.05694e+06                      sec elap:0.006939              615 ~ 667.329
+375382          870936          396.592         3.28393e+06                      sec elap:0.004346              1339 ~ 3216.12
+375382          901782          725.703         6.59535e+06                      sec elap:0.004370              1404 ~ 3445.52
+
+average error:199.222 perecnt err:27.7218
+
+Errors min:0      12.1173        median: 37.8861         114.656         max:3671.75
+
+Percent Errors min:0      7.91517        median: 16.8077         33.3418         max:305.216
+
+Time min:0        99     median: 227     757     max:7886
+=------------------------------------------------------------------------------------------
+4 features 123 sub set 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+_-----------------------------------------------------------------------------------build 25 with 6 features 
+
+[jcb97@frog bin]$ ./main
+Staring up World!
+there are 25 data points 
+opening 1entering slice 57.149883 layers  864 surfaces
+         sec elap:3.257141 
+opening 3entering slice 358.139648 layers  864 surfaces
+         sec elap:0.010948 
+opening 4entering slice 100.621529 layers  864 surfaces
+         sec elap:2.759989 
+opening 5entering slice 317.494049 layers  864 surfaces
+         sec elap:0.956588 
+opening 6entering slice 75.000000 layers  2016 surfaces
+         sec elap:0.006969 
+opening 7entering slice 345.494598 layers  2016 surfaces
+         sec elap:0.509429 
+opening 8entering slice 354.919617 layers  2016 surfaces
+         sec elap:0.673377 
+opening 9entering slice 95.000000 layers  85388 surfaces
+         sec elap:62.192512 
+opening 10entering slice 424.706848 layers  85388 surfaces
+         sec elap:5.635698 
+opening 11entering slice 285.605316 layers  85388 surfaces
+         sec elap:30.118722 
+opening 12entering slice 95.000000 layers  85388 surfaces
+         sec elap:61.683467 
+opening 13entering slice 458.813629 layers  85388 surfaces
+         sec elap:11.281782 
+opening 14entering slice 363.271210 layers  85388 surfaces
+         sec elap:18.155694 
+opening 15entering slice 54.454411 layers  2800 surfaces
+         sec elap:2.019392 
+opening 16entering slice 520.343018 layers  2800 surfaces
+         sec elap:1.360225 
+opening 17entering slice 567.676941 layers  2800 surfaces
+         sec elap:1.354706 
+opening 18entering slice 54.454411 layers  5596 surfaces
+         sec elap:7.941792 
+opening 19entering slice 776.193604 layers  5596 surfaces
+         sec elap:3.074797 
+opening 20entering slice 747.401550 layers  5596 surfaces
+ triple intersect ERROR 198 399  19.4611  -9.47204
+ triple intersect ERROR 198 400  19.4611  -9.47204
+         sec elap:2.970197 
+opening 21entering slice 275.009979 layers  4032 surfaces
+         sec elap:0.905270 
+opening 22entering slice 406.021729 layers  4032 surfaces
+         sec elap:9.905342 
+opening 23entering slice 309.491425 layers  4032 surfaces
+         sec elap:7.249318 
+opening 24entering slice 186.517197 layers  284 surfaces
+         sec elap:0.068572 
+opening 25entering slice 146.234207 layers  284 surfaces
+         sec elap:0.120064 
+opening 26entering slice 146.583481 layers  284 surfaces
+         sec elap:0.129621 
+
+Total time 234.342  ave 9.37366
+
+builing model 
+report:1
+rms:10.6474
+extracting terms 
+terms out
+done 
+
+storing 0.00262344 0.00131505 0.0743697 5.74127e-05 0.000875835 -0.000131301 there are 180 data points 
+surf area       obj vol       layers        sup vol        real~predicted
+entering slice 57.149883 layers  864 surfaces
+10094.5         27233.8         57.1499         0.00332546              11772           16982                    sec elap:3.259693               75 ~ 74.6269
+entering slice 358.139648 layers  864 surfaces
+10094.5         27405.7         358.14          41805.3         0               0                        sec elap:0.009890      88 ~ 91.557
+entering slice 100.621529 layers  864 surfaces
+10094.5         27251.2         100.622         10331           13898           18180                    sec elap:2.692622      93 ~ 80.1806
+entering slice 317.494049 layers  864 surfaces
+10094.5         27428.8         317.494         65085.9         19170           19461                    sec elap:1.007748      92 ~ 104.136
+entering slice 75.000000 layers  2016 surfaces
+8400            14204.2         75              0               0               0                        sec elap:0.006578      63 ~ 46.2938
+entering slice 345.494598 layers  2016 surfaces
+8400            14214.3         345.495         37268.2         17058           16667                    sec elap:0.521538      104 ~ 81.315
+entering slice 354.919617 layers  2016 surfaces
+8400            14204           354.92          37340.2         19843           19221                    sec elap:0.681471      84 ~ 84.1104
+entering slice 95.000000 layers  85388 surfaces
+
+
+
+___________________________________________________
+optimizer 
+#define stable  .00001
+#define epslon  .001
+#define PIE  3.14159265358979323846
+		this-> alpha = .10;
+	this-> numbSteps = 20;
+	this->numbTries = 40 ;
+
+Start at:190.317
+
+  ended try
+Moved from 1.2e+06 to 184.279 
+
+Moved from 184.279 to 184.1 
+
+Moved from 184.1 to 183.3 
+
+Moved from 183.3 to 181.989 
+
+         sec elap:11.235010 
+Final time min: 181.989 secs used:11.235 
+
+
+reading Predictor 0.00618873 0.000700656 0.0163103 4.06557e-06 
+
+Start at:190.764
+
+Moved from 1.2e+06 to 184.757 
+
+Moved from 184.757 to 182.986 
+
+Moved from 182.986 to 182.605 
+
+Moved from 182.605 to 181.548 
+
+         sec elap:11.305516 
+Final time min: 181.548 secs used:11.3055 
+
+
+reading Predictor 0.00618873 0.000700656 0.0163103 4.06557e-06 
+
+Start at:190.764
+
+  ended try
+Moved from 1.2e+06 to 182.375 
+
+Moved from 182.375 to 182.035 
+
+  ended try
+         sec elap:11.268287 
+Final time min: 182.035 secs used:11.2683 

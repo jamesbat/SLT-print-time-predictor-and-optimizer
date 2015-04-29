@@ -68,8 +68,7 @@ int Predictor ::learnFrom(std::string filename){
 	Objstats feature;
 
 	alglib::real_2d_array data;
-	//alglib::real_2d_array times;
-	//times in minutes 
+
 
 	float printTime =0;
 	std::string line;
@@ -216,9 +215,7 @@ int Predictor ::test(std::string filename){
 	timer t;
 	double totalTime = 0.0;
 	if(! educated) return -1;
-	//r^2	//R = 1- ssres  / sstot
-	//sstot = sum (yi - yave)^2
-	//ssres = sum (yi - prediced yi)^2
+
 
 	//build build time and etime arrays
 		int numbpoints = 0;
@@ -290,24 +287,18 @@ int Predictor ::test(std::string filename){
 	percentErr *= 100;
 	std::cout << std::endl;
 	std::cout << "average error:" << aveErr << " perecnt err:"<< percentErr << std::endl;
-	double yave = timeTotal / numbpoints;
-	 double ssTot = 0;
-	 double ssRes = 0;
-	 //R = 1- ssres  / sstot
-	//sstot = sum (yi - yave)^2
-	//ssres = sum (yi - prediced yi)^2
+	//double yave = timeTotal / numbpoints;
+
+
 	std::vector<float> errors(constpoints);
 	std::vector<float> perErrors(constpoints);
 	std::vector<float> Time(constpoints);
 	 for( int i = 0 ; i < numbpoints-1; i++){
-	 	ssTot += pow((times[i] - yave), 2 );
-	 	ssRes += pow(( times[i]- eTimes[i] ), 2 );
-	 	errors[i] = fabs(times[i]- eTimes[i]);
+		 	errors[i] = fabs(times[i]- eTimes[i]);
 	 	perErrors[i] = fabs( (times[i]- eTimes[i]) * 100.0 / times[i]) ;
 	 	Time[i] = times[i];
 	 //	std::cout << times[i] << " ~ " << eTimes[i] << std::endl;
 	 }
-	 double R = 1 - ssTot/ ssRes;
 	 std::sort(Time.begin(), Time.end());
 	 std::sort(perErrors.begin(), perErrors.end());
 	 std::sort(errors.begin(), errors.end());
@@ -322,6 +313,6 @@ int Predictor ::test(std::string filename){
 	 	 Time[ 3* constpoints/4],	Time[ constpoints -1] );
 printf("Total predict time sec:%g  ave:%g\n", totalTime, totalTime/numbpoints);
 	//get yave
-	return R;
+	return 0;
 
 }

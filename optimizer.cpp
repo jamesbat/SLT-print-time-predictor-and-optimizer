@@ -36,7 +36,7 @@ void Optimizer ::bestRotate(StlReader * reader, rot * bestRot){
 			rotation[i] = rand() * 2 * PIE / RAND_MAX;
 
 		for(int steps = 0; steps < this->numbSteps; steps ++){
-			//get gardient
+			//get gradient
 			reader->setRotation(rotation);
 			reader->setDown(false);
 			curTime = pred.predictObj(reader, true);
@@ -52,20 +52,18 @@ void Optimizer ::bestRotate(StlReader * reader, rot * bestRot){
 				rotation [i] -= epslon;
 			}
 			totalGrad = 0;
-			//update gradiantes 
+			//update rotations 
 		//	printf("\nGradiants: ");
 			for(int i = 0; i < 3; i++){
 				rotation[i] += gradient[i];
-		//		printf("%g \t",gradient[i] );
 				totalGrad += fabs(gradient[i]);
 			}
-		//	printf("\n");
+		
 			if(totalGrad < stable){
-				printf("stableized at %d", steps);
-				break;
+				break;//stablized
 			}
 		}
-	//	printf("  ended try\n");
+
 		curTime = pred.predictObj(reader, false);
 		if(curTime < bestTime && curTime >= 1){
 			for(int i = 0 ; i < 3; i++)

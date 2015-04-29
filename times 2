@@ -1,0 +1,37 @@
+times
+
+139	9:57:00    10:17:42
+140	10:18 		10:31
+145	10:35	10:43
+177 12:16 	12:19
+178 12:19   12:25
+179	12:26	12:29
+
+123 -> 180  selected deletions 
+average error:210.428 perecnt err:32.3374
+
+Errors min:0      16.4836        median: 45.5536         134.027         max:4285.97
+
+Percent Errors min:0      9.18371        median: 21.9503         33.5846         max:377.951
+0.00606446 0.00119225 0.0612322 0.000215751 
+Time min:0        99     median: 227     757     max:7886
+
+162 -> 180
+average error:227.861 perecnt err:31.6412
+
+Errors min:0      18.2814        median: 54.2007         216.757         max:4399.3
+
+Percent Errors min:0      14.3568        median: 27.7952         40.5541         max:503.326
+
+Time min:0        99     median: 227     757     max:7886
+
+
+126-> 180 
+average error:217.461 perecnt err:27.225
+
+Errors min:0      15.9013        median: 33.3219         151.977         max:3367.52
+
+Percent Errors min:0      8.64278        median: 18.3991         31.1257         max:296.96
+
+Time min:0        99     median: 227     757     max:7886
+0.00623995 0.00067117 0.0159817 6.38313e-06 

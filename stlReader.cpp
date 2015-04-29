@@ -4,9 +4,7 @@
 #include <iostream>
 #include <cmath>
 
-void  StlReader ::hello(void){
-		std::cout << "Hello i'm a reader World!" << std::endl;
-	} 
+
 void printArray(float * A, int row, int col){
   if(row * col > 100) {
     printf("error huge array print\n");
