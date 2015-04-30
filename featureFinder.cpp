@@ -231,7 +231,7 @@ void FeatureFinder ::Slice( surextrema surfaces[], int numbsurface, Objstats * s
           else below[j - 1 -  toptotal] = j*3;
         }
    //   printf("%d  %d  %d  %d  %d  \n", toptotal, above[0], above[1], below[0], below[1]);
-          intersect ( &tri[above[0]], &tri[below[0]], level, cur, tri);
+            intersect ( &tri[above[0]], &tri[below[0]], level, cur, tri);
           if(toptotal > 1) intersect ( &tri[above[1]], &tri[below[0]], level, &cur[2], tri);
           else intersect ( &tri[above[0]], &tri[below[1]], level, &cur[2], tri);
           

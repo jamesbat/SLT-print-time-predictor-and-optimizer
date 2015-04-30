@@ -1,10 +1,6 @@
 #ifndef STLREADER_H
 #define STLREADER_H
-//corrners 
-//raft area 
-//more some functions to utils 
-//scaling check
-//check surface normal
+
 
 #include <cstdlib>
 #include <iostream>

@@ -54,7 +54,7 @@ int main(void)
 for(int i =16; i < 21; i++)
   opt (i);
 
-
+  
  //Predictor guesser;
  // guesser.learnFrom("./data");
  // guesser.read("currentModel");

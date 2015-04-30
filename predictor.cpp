@@ -271,7 +271,7 @@ int Predictor ::test(std::string filename){
 	totalTime += t.end();
  
 	//read time 
-	
+	  
 		printTime = std::stoi(&line[divider], &divider, 10);
 		printTime = printTime * 60; //hours first 
 		divider = line.find(':', 0 );//then minutes 

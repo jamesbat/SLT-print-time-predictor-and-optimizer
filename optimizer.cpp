@@ -48,7 +48,7 @@ void Optimizer ::bestRotate(StlReader * reader, rot * bestRot){
 
 				totalGrad = pred.predictObj(reader, true);
 			//	printf("%g\t", totalGrad);
-				gradient[i] +=  alpha *((curTime - totalGrad) / epslon);
+		  		gradient[i] +=  alpha *((curTime - totalGrad) / epslon);
 				rotation [i] -= epslon;
 			}
 			totalGrad = 0;

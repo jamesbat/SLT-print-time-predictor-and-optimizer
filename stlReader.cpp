@@ -293,7 +293,7 @@ int StlReader ::saveObject(std::string newname ){
 			outfile.write((char *)& surfsize, 2);
 		}
 		outfile.close();
-
+  
 	}
 	 else std::cout << "Unable to output file";
 	return 0;

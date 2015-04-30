@@ -1,0 +1,82 @@
+<head><style>
+	dl {
+		display: none;
+	}
+	.content {
+		width: 60%;
+		margin: auto;
+		padding-top: 40px;
+		
+	}
+	h1, h2, .h2 {
+		font-family: "Glegoo";
+		margin: 0px;
+	}
+	p {
+		font-family: "Roboto";
+		font-weight: 100;
+		line-height: 24px;
+	}
+
+	h1 {
+		color: rgb(0,100,146);
+		font-size: 50px;
+	}
+
+	h2, .h2{
+		font-size: 20px;
+		color: rgb(050,050,050);
+	}
+
+	.mb {
+		margin-bottom: 20px;
+	}
+
+	a {
+		font-family: "Glegoo";
+		font-size: 20px;
+		text-decoration: none;
+	}
+
+	.links {
+		padding-top: 30px;
+	}
+
+	a:link {
+		color: rgb(0,100,146);
+	}
+
+	a:visited {
+		color: rgb(0,100,146);
+	}	
+
+	a:hover {
+		text-decoration: underline;
+	}
+
+	a:active {
+		color: rgb(0,100,146);
+	}
+
+</style>
+
+
+	<link href="http://fonts.googleapis.com/css?family=Glegoo|Roboto:400,300" rel="stylesheet" type="text/css">
+</head>
+<body><div class="content">
+	<h1 class="mb"> Prediction and Optimization of 3D Print Time </h1>
+	<h2> A Senior Project by James Batchelder</h2>
+	<h2 class="mb"> Advisors: Richard Lethin and Steven Zucker</h2>
+	<p class="mb">  Abstract: The time and volume of material used to print a 3D object are dependent on rotation.  Normally, print time is computed when the object is prepared for printing in a computationally lengthy process known as slicing.   In this project, the print time is predicted 3 orders of magnitude faster, with some loss in accuracy, by using machine learning methods rather than traditional slicing algorithms.  This is accomplished with a nonlinear feature extractor combined with an ordinary least squares model.  This allows a user to quickly check several promising orientations of an object to reduce print time.  In the over $2 billion 3D printing industry there is still no widely accepted, generalized algorithm to find the optimal rotation for an object.  To solve this problem, a gradient descent algorithm, based on the predictor, is used to find possible optimal orientations.
+	
+	</p><div class="links">
+		
+		<span class="h2">&nbsp; -- &nbsp;</span>
+		<a href="./Report.pdf"> Final  Report </a>
+		<span class="h2">&nbsp; -- &nbsp;</span>
+		<a href="https://github.com/jamesbat/STL-print-time-predictor-and-optimizer"> Source Code </a>
+		<span class="h2"> &nbsp; -- &nbsp;</span>
+		<a href="./original.pdf">Project Proposal </a>
+	</div><IMG SRC="./dataflow.jpg" height=500 width=800 ALIGN="top">
+	
+</div></body>
